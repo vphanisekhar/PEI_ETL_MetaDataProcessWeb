@@ -72,6 +72,7 @@ namespace PEI_ETL_MetaDataProcess_APIs.Controllers
         public async Task<IActionResult> CreateProduct(ProductDetailsDTO productDetails)
         {
             var isProductCreated = await _productService.InsertAsync(productDetails);
+            await _productService.CompletedAsync();
 
             if (isProductCreated)
             {
