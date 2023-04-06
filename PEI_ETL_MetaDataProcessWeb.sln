@@ -1,0 +1,55 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.4.33213.308
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PEI_ETL_MetaDataProcessWeb", "PEI_ETL_MetaDataProcessWeb\PEI_ETL_MetaDataProcessWeb.csproj", "{D694C57A-C990-4CAE-9E74-F78ECCF8EDBC}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PEI_ETL.Core", "PEI_ETL.Core\PEI_ETL.Core.csproj", "{C3F79C5F-DC12-4076-BBA5-A74DCC4837FA}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PEI_ETL.Infrastrucure", "PEI_ETL.Infrastrucure\PEI_ETL.Infrastrucure.csproj", "{CE733D46-5550-403F-966B-FD1510E6A2A2}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PEI_ETL.Services", "PEI_ETL.Services\PEI_ETL.Services.csproj", "{493E9829-7F72-4B36-B518-7AD5BC9D9553}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PEI_ETL_MetaDataProcess_APIs", "PEI_ETL_MetaDataProcess_APIs\PEI_ETL_MetaDataProcess_APIs.csproj", "{EF342987-1560-4E9D-B7F6-0679CEF61829}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PEI_MetaData_API", "PEI_MetaData_API\PEI_MetaData_API.csproj", "{55A6DB49-9D8B-42C2-9E27-EB7A54E35964}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D694C57A-C990-4CAE-9E74-F78ECCF8EDBC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D694C57A-C990-4CAE-9E74-F78ECCF8EDBC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D694C57A-C990-4CAE-9E74-F78ECCF8EDBC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D694C57A-C990-4CAE-9E74-F78ECCF8EDBC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C3F79C5F-DC12-4076-BBA5-A74DCC4837FA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C3F79C5F-DC12-4076-BBA5-A74DCC4837FA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C3F79C5F-DC12-4076-BBA5-A74DCC4837FA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C3F79C5F-DC12-4076-BBA5-A74DCC4837FA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CE733D46-5550-403F-966B-FD1510E6A2A2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CE733D46-5550-403F-966B-FD1510E6A2A2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CE733D46-5550-403F-966B-FD1510E6A2A2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CE733D46-5550-403F-966B-FD1510E6A2A2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{493E9829-7F72-4B36-B518-7AD5BC9D9553}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{493E9829-7F72-4B36-B518-7AD5BC9D9553}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{493E9829-7F72-4B36-B518-7AD5BC9D9553}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{493E9829-7F72-4B36-B518-7AD5BC9D9553}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EF342987-1560-4E9D-B7F6-0679CEF61829}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EF342987-1560-4E9D-B7F6-0679CEF61829}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EF342987-1560-4E9D-B7F6-0679CEF61829}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EF342987-1560-4E9D-B7F6-0679CEF61829}.Release|Any CPU.Build.0 = Release|Any CPU
+		{55A6DB49-9D8B-42C2-9E27-EB7A54E35964}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{55A6DB49-9D8B-42C2-9E27-EB7A54E35964}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{55A6DB49-9D8B-42C2-9E27-EB7A54E35964}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{55A6DB49-9D8B-42C2-9E27-EB7A54E35964}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {27F393FA-64C5-44B4-BF52-5479CBAE237B}
+	EndGlobalSection
+EndGlobal
