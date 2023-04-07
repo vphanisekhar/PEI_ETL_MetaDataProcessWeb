@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace PEI_ETL_MetaDataProcess_APIs.Controllers
 {
-    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme,  Roles = "uma_protection")]
     [Route("api/[controller]")]
     [ApiController]
     public class ProductController : ControllerBase

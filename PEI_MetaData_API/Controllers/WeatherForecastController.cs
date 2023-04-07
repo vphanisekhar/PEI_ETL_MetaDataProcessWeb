@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace PEI_MetaData_API.Controllers
 {
 
-    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    [Authorize(AuthenticationSchemes = "Bearer")]
     [ApiController]
     [Route("[controller]")]
     public class WeatherForecastController : ControllerBase

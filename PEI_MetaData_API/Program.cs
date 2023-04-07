@@ -9,6 +9,7 @@ using PEI_ETL.Services.Service;
 using PEI_MetaData_API.Authentication;
 using AutoMapper;
 using PEI_ETL.Services.AutoMapperProfile;
+using Microsoft.AspNetCore.Authentication;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,6 +23,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddTransient<IUnitOfWork, UnitOfWork>();
 builder.Services.AddTransient(typeof(ProjectService), typeof(ProjectService));
 builder.Services.AddTransient(typeof(ProductService), typeof(ProductService));
+
+builder.Services.AddTransient<IClaimsTransformation, ClaimsTransformer>();
 
 // Add services to the container.
 builder.Services.AddDbContext<ETLDbContext>(options =>
