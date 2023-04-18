@@ -79,7 +79,7 @@ namespace PEI_MetaData_API.Authentication
 
                 o.Events = new JwtBearerEvents()
                 {
-                    OnTokepani_sekr@yahoo.co.innValidated = c =>
+                    OnTokenValidated = c =>
                     {
                         Console.WriteLine("User successfully authenticated");
                         return Task.CompletedTask;
