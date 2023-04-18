@@ -6,11 +6,11 @@ using PEI_ETL.Services.DTO;
 namespace PEI_ETL.Services.Service
 {
 
-    public class ProductService
+    public class ETLBatchSrcService
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
-        public ProductService(
+        public ETLBatchSrcService(
             IUnitOfWork unitOfWork,
             IMapper mapper
             )
@@ -19,17 +19,17 @@ namespace PEI_ETL.Services.Service
             _mapper = mapper;
         }
 
-        public async Task<IEnumerable<ProductDetailsDTO>> GetProductAsync()
+        public async Task<IEnumerable<ETLBatchSrcDTO>> GetETLBatchSrcAsync()
         {
-            var products = await _unitOfWork.Products.GetAll();
+            var eTLBatchSrcs = await _unitOfWork.ETLBatchSrc.GetAll();
 
-            return _mapper.Map<IEnumerable<ProductDetailsDTO>>(products);
+            return _mapper.Map<IEnumerable<ETLBatchSrcDTO>>(eTLBatchSrcs);
         }
 
-        public async Task<bool> InsertAsync(ProductDetailsDTO productDetailsDTO)
+        public async Task<bool> InsertAsync(ETLBatchSrcDTO eTLBatchSrcDTO)
         {
-            var project = _mapper.Map<ProductDetails>(productDetailsDTO);
-            return await _unitOfWork.Products.Add(project);
+            var eTLBatchSrc = _mapper.Map<ETLBatchSrc>(eTLBatchSrcDTO);
+            return await _unitOfWork.ETLBatchSrc.Add(eTLBatchSrc);
         }
 
         public async Task<int> CompletedAsync()

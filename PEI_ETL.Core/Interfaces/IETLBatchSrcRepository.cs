@@ -3,8 +3,7 @@
 namespace PEI_ETL.Core.Interfaces
 {
 
-
-    public interface IProductRepository : IGenericRepository<ProductDetails>
+    public interface IETLBatchSrcRepository : IGenericRepository<ETLBatchSrc>
     {
     }
 }

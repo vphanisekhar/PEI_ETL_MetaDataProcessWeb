@@ -6,10 +6,10 @@ using PEI_ETL.Services.Service;
 
 namespace PEI_ETL_MetaDataProcess_APIs.Controllers
 {
-    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme,  Roles = "uma_protection")]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [Route("api/[controller]")]
     [ApiController]
-    public class ProductController : ControllerBase
+    public class ETLBatchSrcController : ControllerBase
     {
         //public readonly IProductService _productService;
         //public ProductController(IProductService productService)
@@ -18,11 +18,11 @@ namespace PEI_ETL_MetaDataProcess_APIs.Controllers
         //}
 
 
-        private readonly ProductService _productService;
+        private readonly ETLBatchSrcService _eTLBatchSrcService;
 
-        public ProductController(ProductService service)
+        public ETLBatchSrcController(ETLBatchSrcService service)
         {
-            _productService = service;
+            _eTLBatchSrcService = service;
         }
 
         /// <summary>
@@ -30,14 +30,14 @@ namespace PEI_ETL_MetaDataProcess_APIs.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public async Task<IActionResult> GetProductList()
+        public async Task<IActionResult> GetETLBatchSrcList()
         {
-            var productDetailsList = await _productService.GetProductAsync();
-            if (productDetailsList == null)
+            var eTLBatchSrcList = await _eTLBatchSrcService.GetETLBatchSrcAsync();
+            if (eTLBatchSrcList == null)
             {
                 return NotFound();
             }
-            return Ok(productDetailsList);
+            return Ok(eTLBatchSrcList);
         }
 
         /// <summary>
@@ -66,14 +66,14 @@ namespace PEI_ETL_MetaDataProcess_APIs.Controllers
         /// <param name="productDetails"></param>
         /// <returns></returns>
         [HttpPost]
-        public async Task<IActionResult> CreateProduct(ProductDetailsDTO productDetails)
+        public async Task<IActionResult> CreateETLBatchSrc(ETLBatchSrcDTO eTLBatchSrc)
         {
-            var isProductCreated = await _productService.InsertAsync(productDetails);
-            await _productService.CompletedAsync();
+            var isETLBatchSrcCreated = await _eTLBatchSrcService.InsertAsync(eTLBatchSrc);
+            await _eTLBatchSrcService.CompletedAsync();
 
-            if (isProductCreated)
+            if (isETLBatchSrcCreated)
             {
-                return Ok(isProductCreated);
+                return Ok(isETLBatchSrcCreated);
             }
             else
             {

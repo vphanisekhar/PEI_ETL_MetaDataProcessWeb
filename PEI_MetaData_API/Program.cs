@@ -13,6 +13,9 @@ using Microsoft.AspNetCore.Authentication;
 
 var builder = WebApplication.CreateBuilder(args);
 
+//PHANI added
+builder.Services.AddCors();
+
 // Add services to the container.
 
 builder.Services.AddControllers();
@@ -23,8 +26,12 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddTransient<IUnitOfWork, UnitOfWork>();
 builder.Services.AddTransient(typeof(ProjectService), typeof(ProjectService));
 builder.Services.AddTransient(typeof(ProductService), typeof(ProductService));
+builder.Services.AddTransient(typeof(ETLBatchSrcService), typeof(ETLBatchSrcService));
 
 builder.Services.AddTransient<IClaimsTransformation, ClaimsTransformer>();
+
+builder.Services.ConfigureJWT(false,
+ "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEArfrqpk1IzAv7BLvXr3ox9zFrrsM0jfKe4RzbjpgG2xvFaRtkY+F0THPNiLIASorGWy+ErrA9kLkLvMmWiV1Um2uTSEe3hMZ6W/OK25B+P+AwrXgPNAXt3R0QJNKk2zlNIN9ZrD0tV8E6h3oDi31pvXPi2NuPzW6C5B5r6sTDzHd5dkTLO+dnkJG3O92M1QuvstJfDERy+03IKRRFtdgEQTit+nJ7Dy8sv5TFZpUnzQ85SNQCLqWedApvont67r+oAJtgd4CXh12nQD0Zm33CPojJfdo2fqborqhuhezg1Gq4VKALhbtmCyz/u7SkRN/upY6bzHp/q+i+Jx3cQaTCyQIDAQAB");
 
 // Add services to the container.
 builder.Services.AddDbContext<ETLDbContext>(options =>
@@ -35,6 +42,17 @@ builder.Services.AddIdentity<IdentityUser, IdentityRole>()
     .AddEntityFrameworkStores<ETLDbContext>()
     .AddDefaultTokenProviders();
 
+//PHANI - added
+//builder.Services.AddCors(options =>
+//{
+//    options.AddPolicy("MyAllowedOrigins",
+//        policy =>
+//        {
+//            policy.WithOrigins("https://localhost:8081") // note the port is included 
+//                .AllowAnyHeader()
+//                .AllowAnyMethod();
+//        });
+//});
 
 
 builder.Services.AddSwaggerGen(c =>
@@ -102,8 +120,6 @@ c.AddSecurityRequirement(new OpenApiSecurityRequirement{
 //    };
 //});
 
-builder.Services.ConfigureJWT(false,
-    "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA5QoHuDWepQvbNB4MU7kWjnEiICgAE05NfmQ4m8VKzgpBiXNbBFm9ZNT6gZ6khstlNLvN5DMtLDPG3GkfYSv6CHe9Td0L8sr9SGU2k6T48q6Wdea7t0CLbAv5jgNhT5cmCU2D0+ntIAUt6MSinzF41HiUzvmFatLbJsLZ9CSalI7Q4lMnz4+T70oa4EVoHR5IIyfOrEoEmx7mBMZ5V0+oBsuGweO0cjQYlN7oPP4aioAGZcZoWmqCeyWkqILRpStf5nTIPtRqxtxwioPE4h+dIcoqU1KT9hs8ga8ahaVhB0gSBeCuaYZEaPRQYWp8jrgz/nfV9giyTRmueZIFfFW8XwIDAQAB");
 
 
 var config = new MapperConfiguration(cfg =>
@@ -115,7 +131,11 @@ var mapper = config.CreateMapper();
 
 builder.Services.AddSingleton(mapper);
 
+
+
 var app = builder.Build();
+
+//app.UseCors("MyAllowedOrigins");
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -125,6 +145,14 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+//PHANI added
+app.UseCors(builder =>
+{
+    builder.AllowAnyOrigin()
+           .AllowAnyMethod()
+           .AllowAnyHeader();
+});
 
 app.UseAuthorization();
 

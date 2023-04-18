@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using PEI_ETL.Services.DTO;
 using PEI_ETL.Services.Service;
-using UnitOfWorkDemo.Core.Models;
 
 namespace PEI_ETL_MetaDataProcessWeb.Controllers
 {

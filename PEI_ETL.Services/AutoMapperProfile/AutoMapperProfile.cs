@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using UnitOfWorkDemo.Core.Models;
 
 namespace PEI_ETL.Services.AutoMapperProfile
 {
@@ -19,6 +18,8 @@ namespace PEI_ETL.Services.AutoMapperProfile
 
 
             CreateMap<ProductDetailsDTO, ProductDetails>().ReverseMap();
+
+            CreateMap<ETLBatchSrcDTO, ETLBatchSrc>().ReverseMap();
         }
     }
 }

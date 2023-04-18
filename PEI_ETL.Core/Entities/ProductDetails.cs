@@ -1,6 +1,6 @@
 ﻿
 
-namespace UnitOfWorkDemo.Core.Models
+namespace PEI_ETL.Core.Entities
 {
     public class ProductDetails
     {

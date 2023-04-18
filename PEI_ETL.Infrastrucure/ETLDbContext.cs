@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using PEI_ETL.Core.Entities;
-using UnitOfWorkDemo.Core.Models;
+
 
 namespace PEI_ETL.Infrastrucure
 {
@@ -22,5 +22,7 @@ namespace PEI_ETL.Infrastrucure
         public virtual DbSet<Project> Projects { get; set; }
 
         public virtual DbSet<ProductDetails> Products { get; set; }
+
+        public  virtual DbSet<ETLBatchSrc> ETL_BATCH_SRC { get; set; }
     }
 }

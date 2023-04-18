@@ -11,6 +11,8 @@ namespace PEI_ETL.Core.Interfaces
         IProjectRepository Projects { get; }
 
         IProductRepository Products { get; }
+
+        IETLBatchSrcRepository ETLBatchSrc { get; }
         Task<int> CompletedAsync();
     }
 }
