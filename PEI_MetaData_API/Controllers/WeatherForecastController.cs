@@ -36,8 +36,8 @@ namespace PEI_MetaData_API.Controllers
             .ToArray();
         }
 
-        [HttpGet(Name = "Get1")]
-        public IEnumerable<WeatherForecast> Get1()
+        [HttpGet(Name = "Test")]
+        public IEnumerable<WeatherForecast> Test()
         {
             return Enumerable.Range(1, 5).Select(index => new WeatherForecast
             {
