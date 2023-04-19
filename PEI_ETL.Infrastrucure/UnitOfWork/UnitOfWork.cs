@@ -1,11 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 using PEI_ETL.Core.Interfaces;
 using PEI_ETL.Infrastrucure.Repository;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PEI_ETL.Infrastrucure.UnitOfWork
 {
@@ -17,8 +12,6 @@ namespace PEI_ETL.Infrastrucure.UnitOfWork
         public IProjectRepository Projects { get; private set; }
 
         public IProductRepository Products { get; private set; }
-
-       // public IETLBatchSrcRepository ETLBatchSrcs { get; private set; }
 
         public IETLBatchSrcRepository ETLBatchSrc { get; private set; }
 

@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace PEI_ETL.Core.Auth
+﻿namespace PEI_ETL.Core.Auth
 {
     public class Response
     {
