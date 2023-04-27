@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System.Security.Claims;
 using System.Security.Cryptography;
@@ -8,8 +9,16 @@ namespace PEI_MetaData_API.Authentication
 {
     public class ClaimsTransformer : IClaimsTransformation
     {
+        private IConfiguration _configuration;
+        public ClaimsTransformer(IConfiguration configuration)
+        {
+            _configuration = configuration;
+        }
+
         public Task<ClaimsPrincipal> TransformAsync(ClaimsPrincipal principal)
         {
+            var clientId = _configuration.GetValue<string>("JWT:Audience");
+
             ClaimsIdentity claimsIdentity = (ClaimsIdentity)principal.Identity;
 
             // flatten resource_access because Microsoft identity model doesn't support nested claims
@@ -20,7 +29,7 @@ namespace PEI_MetaData_API.Authentication
 
                 var content = Newtonsoft.Json.Linq.JObject.Parse(userRole.Value);
 
-                foreach (var role in content["peiclient"]["roles"])
+                foreach (var role in content[clientId]["roles"])
                 {
                     claimsIdentity.AddClaim(new Claim(ClaimTypes.Role, role.ToString()));
                 }
@@ -48,7 +57,7 @@ namespace PEI_MetaData_API.Authentication
             return IssuerSigningKey;
         }
 
-        public static void ConfigureJWT(this IServiceCollection services, bool IsDevelopment, string publicKeyJWT)
+        public static void ConfigureJWT(this IServiceCollection services, bool IsDevelopment, string publicKeyJWT, string keycloakRealm)
         {
             var AuthenticationBuilder = services.AddAuthentication(options =>
             {
@@ -66,7 +75,7 @@ namespace PEI_MetaData_API.Authentication
                 {
                     ValidateAudience = false,
                     ValidateIssuer = true,
-                    ValidIssuers = new[] { "http://localhost:8080/realms/peirealm" },
+                    ValidIssuers = new[] { keycloakRealm },
                     ValidateIssuerSigningKey = true,
                     IssuerSigningKey = BuildRSAKey(publicKeyJWT),
                     ValidateLifetime = true

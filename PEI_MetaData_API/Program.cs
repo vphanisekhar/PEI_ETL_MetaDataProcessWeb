@@ -30,8 +30,12 @@ builder.Services.AddTransient(typeof(ETLBatchSrcService), typeof(ETLBatchSrcServ
 
 builder.Services.AddTransient<IClaimsTransformation, ClaimsTransformer>();
 
-builder.Services.ConfigureJWT(false,
- "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEArfrqpk1IzAv7BLvXr3ox9zFrrsM0jfKe4RzbjpgG2xvFaRtkY+F0THPNiLIASorGWy+ErrA9kLkLvMmWiV1Um2uTSEe3hMZ6W/OK25B+P+AwrXgPNAXt3R0QJNKk2zlNIN9ZrD0tV8E6h3oDi31pvXPi2NuPzW6C5B5r6sTDzHd5dkTLO+dnkJG3O92M1QuvstJfDERy+03IKRRFtdgEQTit+nJ7Dy8sv5TFZpUnzQ85SNQCLqWedApvont67r+oAJtgd4CXh12nQD0Zm33CPojJfdo2fqborqhuhezg1Gq4VKALhbtmCyz/u7SkRN/upY6bzHp/q+i+Jx3cQaTCyQIDAQAB");
+var clientId= builder.Configuration.GetValue<string>("JWT:Audience");
+var keyCloakRealm = builder.Configuration.GetValue<string>("JWT:Authority");
+var publicKeyRealm = builder.Configuration.GetValue<string>("JWT:PublicKeyRS256");
+var isDevelopment = builder.Configuration.GetValue<bool>("IsDevelopment");
+
+builder.Services.ConfigureJWT(isDevelopment, publicKeyRealm, keyCloakRealm);
 
 // Add services to the container.
 builder.Services.AddDbContext<ETLDbContext>(options =>
@@ -41,19 +45,6 @@ builder.Services.AddDbContext<ETLDbContext>(options =>
 builder.Services.AddIdentity<IdentityUser, IdentityRole>()
     .AddEntityFrameworkStores<ETLDbContext>()
     .AddDefaultTokenProviders();
-
-//PHANI - added
-//builder.Services.AddCors(options =>
-//{
-//    options.AddPolicy("MyAllowedOrigins",
-//        policy =>
-//        {
-//            policy.WithOrigins("https://localhost:8081") // note the port is included 
-//                .AllowAnyHeader()
-//                .AllowAnyMethod();
-//        });
-//});
-
 
 builder.Services.AddSwaggerGen(c =>
 {
@@ -92,36 +83,6 @@ c.AddSecurityRequirement(new OpenApiSecurityRequirement{
 });
 
 
-//builder.Services.AddAuthentication(options =>
-//{
-//    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-//    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-//});
-    
-//    .AddJwtBearer(o =>
-//{
-//    o.Authority = builder.Configuration["Jwt:Authority"];
-//    o.Audience = builder.Configuration["Jwt:Audience"];
-//    o.RequireHttpsMetadata = false;
-//    o.Events = new JwtBearerEvents()
-//    {
-//        OnAuthenticationFailed = c =>
-//        {
-//            c.NoResult();
-
-//            c.Response.StatusCode = 500;
-//            c.Response.ContentType = "text/plain";
-//            //if (Environment.IsDevelopment())
-//            //{
-//            //    return c.Response.WriteAsync(c.Exception.ToString());
-//            //}
-//            return c.Response.WriteAsync("An error occured processing your authentication.");
-//        }
-//    };
-//});
-
-
-
 var config = new MapperConfiguration(cfg =>
 {
     cfg.AddProfile(new AutoMapperProfile());
@@ -131,11 +92,8 @@ var mapper = config.CreateMapper();
 
 builder.Services.AddSingleton(mapper);
 
-
-
 var app = builder.Build();
 
-//app.UseCors("MyAllowedOrigins");
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -155,8 +113,6 @@ app.UseCors(builder =>
 });
 
 app.UseAuthorization();
-
-
 
 app.MapControllers();
 
