@@ -36,27 +36,20 @@ namespace PEI_ETL.Infrastrucure.Repository
             return await dbSet.ToListAsync();
         }
 
-        public async Task<T?> GetById(Guid id)
+        public async Task<T?> GetById(int id)
         {
             return await dbSet.FindAsync(id);
         }
 
-        public async Task<bool> Remove(Guid id)
+        public  void Remove(T entity)
         {
-            var t = await dbSet.FindAsync(id);
-
-            if (t != null)
-            {
-                dbSet.Remove(t);
-                return true;
-            }
-            else
-                return false;
+           dbSet.Remove(entity);
         }
 
-        public Task<bool> Upsert(T entity)
+        public void Upsert(T entity)
         {
-            throw new NotImplementedException();
+            dbSet.Update(entity);
+            
         }
     }
 }

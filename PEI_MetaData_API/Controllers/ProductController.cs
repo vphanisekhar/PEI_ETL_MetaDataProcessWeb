@@ -1,12 +1,13 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using PEI_ETL.Core.Entities;
 using PEI_ETL.Services.DTO;
 using PEI_ETL.Services.Service;
 
 namespace PEI_ETL_MetaDataProcess_APIs.Controllers
 {
-    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme,  Roles = "uma_protection")]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "uma_protection")]
     [Route("api/[controller]")]
     [ApiController]
     public class ProductController : ControllerBase
@@ -45,20 +46,20 @@ namespace PEI_ETL_MetaDataProcess_APIs.Controllers
         /// </summary>
         /// <param name="productId"></param>
         /// <returns></returns>
-        //[HttpGet("{productId}")]
-        //public async Task<IActionResult> GetProductById(int productId)
-        //{
-        //    var productDetails = await _productService.GetProductById(productId);
+        [HttpGet("{productId}")]
+        public async Task<IActionResult> GetProductById(int productId)
+        {
+            var productDetails = await _productService.GetProductById(productId);
 
-        //    if (productDetails != null)
-        //    {
-        //        return Ok(productDetails);
-        //    }
-        //    else
-        //    {
-        //        return BadRequest();
-        //    }
-        //}
+            if (productDetails != null)
+            {
+                return Ok(productDetails);
+            }
+            else
+            {
+                return BadRequest();
+            }
+        }
 
         /// <summary>
         /// Add a new product
@@ -78,7 +79,7 @@ namespace PEI_ETL_MetaDataProcess_APIs.Controllers
             else
             {
                 return BadRequest();
-            }       
+            }
         }
 
         /// <summary>
@@ -86,42 +87,45 @@ namespace PEI_ETL_MetaDataProcess_APIs.Controllers
         /// </summary>
         /// <param name="productDetails"></param>
         ///// <returns></returns>
-        //[HttpPut]
-        //public async Task<IActionResult> UpdateProduct(ProductDetails productDetails)
-        //{
-        //    if (productDetails != null)
-        //    {
-        //        var isProductCreated = await _productService.UpdateProduct(productDetails);
-        //        if (isProductCreated)
-        //        {
-        //            return Ok(isProductCreated);
-        //        }
-        //        return BadRequest();
-        //    }
-        //    else
-        //    {
-        //        return BadRequest();
-        //    }
-        //}
+        [HttpPut]
+        public async Task<IActionResult> UpdateProduct(ProductDetails productDetails)
+        {
+            if (productDetails != null)
+            {
+                var isProductCreated = await _productService.UpdateProduct(productDetails);
+                await _productService.CompletedAsync();
+
+                if (isProductCreated)
+                {
+                    return Ok(isProductCreated);
+                }
+                return BadRequest();
+            }
+            else
+            {
+                return BadRequest();
+            }
+        }
 
         ///// <summary>
         ///// Delete product by id
         ///// </summary>
         ///// <param name="productId"></param>
         ///// <returns></returns>
-        //[HttpDelete("{productId}")]
-        //public async Task<IActionResult> DeleteProduct(int productId)
-        //{
-        //    var isProductCreated = await _productService.DeleteProduct(productId);
+        [HttpDelete("{productId}")]
+        public async Task<IActionResult> DeleteProduct(int productId)
+        {
+            var isProductCreated = await _productService.DeleteProduct(productId);
+            await _productService.CompletedAsync();
 
-        //    if (isProductCreated)
-        //    {
-        //        return Ok(isProductCreated);
-        //    }
-        //    else
-        //    {
-        //        return BadRequest();
-        //    }
-        //}
+            if (isProductCreated)
+            {
+                return Ok(isProductCreated);
+            }
+            else
+            {
+                return BadRequest();
+            }
+        }
     }
 }

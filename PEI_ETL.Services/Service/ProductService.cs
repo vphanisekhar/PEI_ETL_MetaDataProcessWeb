@@ -32,6 +32,81 @@ namespace PEI_ETL.Services.Service
             return await _unitOfWork.Products.Add(project);
         }
 
+        public async Task<bool> DeleteProduct(int productId)
+        {
+            if (productId > 0)
+            {
+                var product = await _unitOfWork.Products.GetById(productId);
+                //if (productDetails != null)
+                //{
+                //    //_unitOfWork.Products.Remove(productDetails);
+                //    return true;
+                //    //var result = _unitOfWork.Save();
+
+                //    //if (result > 0)
+                //    //    return true;
+                //    //else
+                //    //    return false;
+                //}
+
+                if (product != null)
+                {
+                    product.IsDeleted = true;
+
+
+                    _unitOfWork.Products.Upsert(product);
+                    return true;
+
+                    //var result = _unitOfWork.Save();
+
+                    //if (result > 0)
+                    //    return true;
+                    //else
+                    //    return false;
+                }
+            }
+            return false;
+        }
+
+        public async Task<ProductDetails> GetProductById(int productId)
+        {
+            if (productId > 0)
+            {
+                var productDetails = await _unitOfWork.Products.GetById(productId);
+                if (productDetails != null)
+                {
+                    return productDetails;
+                }
+            }
+            return null;
+        }
+
+        public async Task<bool> UpdateProduct(ProductDetails productDetails)
+        {
+            if (productDetails != null)
+            {
+                var product = await _unitOfWork.Products.GetById(productDetails.Id);
+                if (product != null)
+                {
+                    product.ProductName = productDetails.ProductName;
+                    product.ProductDescription = productDetails.ProductDescription;
+                    product.ProductPrice = productDetails.ProductPrice;
+                    product.ProductStock = productDetails.ProductStock;
+
+                     _unitOfWork.Products.Upsert(product);
+                    return true;
+
+                    //var result = _unitOfWork.Save();
+
+                    //if (result > 0)
+                    //    return true;
+                    //else
+                    //    return false;
+                }
+            }
+            return false;
+        }
+
         public async Task<int> CompletedAsync()
         {
             return await _unitOfWork.CompletedAsync();
