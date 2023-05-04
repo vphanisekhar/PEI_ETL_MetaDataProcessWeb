@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using PEI_ETL.Core.Entities;
 using PEI_ETL.Services.DTO;
+using PEI_ETL.Services.Interfaces;
 using PEI_ETL.Services.Service;
 
 namespace PEI_ETL_MetaDataProcess_APIs.Controllers
@@ -78,31 +80,33 @@ namespace PEI_ETL_MetaDataProcess_APIs.Controllers
             else
             {
                 return BadRequest();
-            }       
+            }
         }
 
         /// <summary>
-        /// Update the product
+        /// Update ETL batch src
         /// </summary>
-        /// <param name="productDetails"></param>
-        ///// <returns></returns>
-        //[HttpPut]
-        //public async Task<IActionResult> UpdateProduct(ProductDetails productDetails)
-        //{
-        //    if (productDetails != null)
-        //    {
-        //        var isProductCreated = await _productService.UpdateProduct(productDetails);
-        //        if (isProductCreated)
-        //        {
-        //            return Ok(isProductCreated);
-        //        }
-        //        return BadRequest();
-        //    }
-        //    else
-        //    {
-        //        return BadRequest();
-        //    }
-        //}
+        /// <param name="eTLBatchSrc"></param>
+        /// <returns></returns>
+        [HttpPut]
+        public async Task<IActionResult> UpdateETLBatchSrc(ETLBatchSrc eTLBatchSrc)
+        {
+            if (eTLBatchSrc != null)
+            {
+                var iseTLBatchSrcUpdated = await _eTLBatchSrcService.UpdateETLBatchSrc(eTLBatchSrc);
+                await _eTLBatchSrcService.CompletedAsync();
+
+                if (iseTLBatchSrcUpdated)
+                {
+                    return Ok(iseTLBatchSrcUpdated);
+                }
+                return BadRequest();
+            }
+            else
+            {
+                return BadRequest();
+            }
+        }
 
         ///// <summary>
         ///// Delete product by id

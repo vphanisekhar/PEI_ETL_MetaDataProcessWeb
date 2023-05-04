@@ -32,6 +32,35 @@ namespace PEI_ETL.Services.Service
             return await _unitOfWork.ETLBatchSrc.Add(eTLBatchSrc);
         }
 
+        public async Task<bool> UpdateETLBatchSrc(ETLBatchSrc eTLBatchSrc)
+        {
+            if (eTLBatchSrc != null)
+            {
+                var eTLBatchSrcDetails = await _unitOfWork.ETLBatchSrc.GetById(eTLBatchSrc.Id);
+                if (eTLBatchSrcDetails != null)
+                {
+                    eTLBatchSrcDetails.Batch_Name = eTLBatchSrc.Batch_Name;
+                    eTLBatchSrcDetails.Batch_Type = eTLBatchSrc.Batch_Type;
+                    eTLBatchSrcDetails.Source_Server = eTLBatchSrc.Source_Server;
+                    eTLBatchSrcDetails.Src_Extract_Seq = eTLBatchSrc.Src_Extract_Seq;
+                    eTLBatchSrcDetails.Source_Type = eTLBatchSrc.Source_Type;
+                    eTLBatchSrcDetails.Source_Name = eTLBatchSrc.Source_Name;
+                    eTLBatchSrcDetails.Src_PK_String = eTLBatchSrc.Src_PK_String;
+
+                    _unitOfWork.ETLBatchSrc.Upsert(eTLBatchSrcDetails);
+                    return true;
+
+                    //var result = _unitOfWork.Save();
+
+                    //if (result > 0)
+                    //    return true;
+                    //else
+                    //    return false;
+                }
+            }
+            return false;
+        }
+
         public async Task<int> CompletedAsync()
         {
             return await _unitOfWork.CompletedAsync();

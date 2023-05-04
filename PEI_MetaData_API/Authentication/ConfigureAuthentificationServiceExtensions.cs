@@ -29,9 +29,12 @@ namespace PEI_MetaData_API.Authentication
 
                 var content = Newtonsoft.Json.Linq.JObject.Parse(userRole.Value);
 
-                foreach (var role in content[clientId]["roles"])
+                if (content[clientId] != null)
                 {
-                    claimsIdentity.AddClaim(new Claim(ClaimTypes.Role, role.ToString()));
+                    foreach (var role in content[clientId]["roles"])
+                    {
+                        claimsIdentity.AddClaim(new Claim(ClaimTypes.Role, role.ToString()));
+                    }
                 }
             }
 
