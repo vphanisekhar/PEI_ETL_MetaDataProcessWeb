@@ -14,7 +14,7 @@
 
         public string? Source_Server {get; set; }
 
-        public bool? IsActive { get; set; }
+        public bool IsActive { get; set; }
 
     }
 }
