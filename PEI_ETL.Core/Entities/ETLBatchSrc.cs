@@ -1,6 +1,6 @@
 ﻿namespace PEI_ETL.Core.Entities
 {
-    public class ETLBatchSrc
+    public class ETLBatchSrc: AuditColumns
     {
         public int Id { get; set; }
         public string? Batch_Name { get; set; }

@@ -31,6 +31,7 @@ namespace PEI_ETL.Services.Service
 
         public async Task<bool> InsertAsync(ETLBatchSrcDTO eTLBatchSrcDTO)
         {
+            eTLBatchSrcDTO.CreatedDate = DateTime.UtcNow;
             var eTLBatchSrc = _mapper.Map<ETLBatchSrc>(eTLBatchSrcDTO);
             return await _unitOfWork.ETLBatchSrc.Add(eTLBatchSrc);
         }
@@ -49,6 +50,8 @@ namespace PEI_ETL.Services.Service
                     eTLBatchSrcDetails.Source_Type = eTLBatchSrc.Source_Type;
                     eTLBatchSrcDetails.Source_Name = eTLBatchSrc.Source_Name;
                     eTLBatchSrcDetails.Src_PK_String = eTLBatchSrc.Src_PK_String;
+                    eTLBatchSrcDetails.UpdatedDate = DateTime.UtcNow;
+                    eTLBatchSrcDetails.UpdatedBy = eTLBatchSrc.UpdatedBy;
                     //eTLBatchSrcDetails.IsActive = eTLBatchSrc.IsActive;
 
                     _unitOfWork.ETLBatchSrc.Upsert(eTLBatchSrcDetails);
