@@ -23,7 +23,10 @@ namespace PEI_ETL.Services.Service
         {
             var eTLBatchSrcs = await _unitOfWork.ETLBatchSrc.GetAll();
 
-            return _mapper.Map<IEnumerable<ETLBatchSrcDTO>>(eTLBatchSrcs);
+            //Active records will in null or active
+            var eTLBatchSrcsActive = eTLBatchSrcs.Where(x=>x.IsActive != false).ToList();
+
+            return _mapper.Map<IEnumerable<ETLBatchSrcDTO>>(eTLBatchSrcsActive);
         }
 
         public async Task<bool> InsertAsync(ETLBatchSrcDTO eTLBatchSrcDTO)
@@ -46,6 +49,30 @@ namespace PEI_ETL.Services.Service
                     eTLBatchSrcDetails.Source_Type = eTLBatchSrc.Source_Type;
                     eTLBatchSrcDetails.Source_Name = eTLBatchSrc.Source_Name;
                     eTLBatchSrcDetails.Src_PK_String = eTLBatchSrc.Src_PK_String;
+                    //eTLBatchSrcDetails.IsActive = eTLBatchSrc.IsActive;
+
+                    _unitOfWork.ETLBatchSrc.Upsert(eTLBatchSrcDetails);
+                    return true;
+
+                    //var result = _unitOfWork.Save();
+
+                    //if (result > 0)
+                    //    return true;
+                    //else
+                    //    return false;
+                }
+            }
+            return false;
+        }
+            
+        public async Task<bool> DeleteETLBatchSrc(int Id)
+        {
+            if (Id != 0)
+            {
+                var eTLBatchSrcDetails = await _unitOfWork.ETLBatchSrc.GetById(Id);
+                if (eTLBatchSrcDetails != null)
+                {                    
+                    eTLBatchSrcDetails.IsActive = false;
 
                     _unitOfWork.ETLBatchSrc.Upsert(eTLBatchSrcDetails);
                     return true;

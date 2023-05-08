@@ -16,5 +16,7 @@ namespace PEI_ETL.Services.DTO
         public string Src_PK_String { get; set; }
 
         public string Source_Server { get; set; }
+
+        public bool? IsActive { get; set; }
     }
 }

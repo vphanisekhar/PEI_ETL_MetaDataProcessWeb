@@ -9,5 +9,7 @@ namespace PEI_ETL.Services.Interfaces
         Task<bool> InsertAsync(ProductDetailsDTO productDetailsDTO);
 
         Task<bool> UpdateETLBatchSrc(ETLBatchSrc eTLBatchSrc);
+
+        Task<bool> DeleteETLBatchSrc(ETLBatchSrc eTLBatchSrc);
     }
 }
