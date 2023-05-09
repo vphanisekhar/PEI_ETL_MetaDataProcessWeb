@@ -9,7 +9,6 @@ using PEI_ETL.Services.Service;
 namespace PEI_ETL_MetaDataProcess_APIs.Controllers
 {
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-   // [Route("api/[controller]")]
     [ApiController]
     public class ETLBatchSrcController : ControllerBase
     {
@@ -31,30 +30,14 @@ namespace PEI_ETL_MetaDataProcess_APIs.Controllers
             var eTLBatchSrcList = await _eTLBatchSrcService.GetETLBatchSrcAsync();
             if (eTLBatchSrcList == null)
             {
-                return NotFound();
+               // return NotFound();
+                return StatusCode(StatusCodes.Status404NotFound, "No data available!");
             }
-            return Ok(eTLBatchSrcList);
+            //return Ok(eTLBatchSrcList);
+
+            return StatusCode(StatusCodes.Status200OK, eTLBatchSrcList);
         }
 
-        /// <summary>
-        /// Get product by id
-        /// </summary>
-        /// <param name="productId"></param>
-        /// <returns></returns>
-        //[HttpGet("{productId}")]
-        //public async Task<IActionResult> GetProductById(int productId)
-        //{
-        //    var productDetails = await _productService.GetProductById(productId);
-
-        //    if (productDetails != null)
-        //    {
-        //        return Ok(productDetails);
-        //    }
-        //    else
-        //    {
-        //        return BadRequest();
-        //    }
-        //}
 
         /// <summary>
         /// Add a new product
@@ -70,11 +53,13 @@ namespace PEI_ETL_MetaDataProcess_APIs.Controllers
 
             if (isETLBatchSrcCreated)
             {
-                return Ok(isETLBatchSrcCreated);
+                //return Ok(isETLBatchSrcCreated);
+
+                return StatusCode(StatusCodes.Status200OK, "Data created successfully!");
             }
             else
             {
-                return BadRequest();
+                return StatusCode(StatusCodes.Status400BadRequest, "Issue while creating the record in the database table!");
             }
         }
 
@@ -94,13 +79,16 @@ namespace PEI_ETL_MetaDataProcess_APIs.Controllers
 
                 if (iseTLBatchSrcUpdated)
                 {
-                    return Ok(iseTLBatchSrcUpdated);
+                    //return Ok(iseTLBatchSrcUpdated);
+                    return StatusCode(StatusCodes.Status200OK, "Data updated successfully!");
                 }
-                return BadRequest();
+                return StatusCode(StatusCodes.Status400BadRequest, "Issue while updating the record in the database table!");
+
             }
             else
             {
-                return BadRequest();
+                return StatusCode(StatusCodes.Status400BadRequest, "Invalid data!");
+
             }
         }
 
@@ -116,34 +104,16 @@ namespace PEI_ETL_MetaDataProcess_APIs.Controllers
 
                 if (iseTLBatchSrcUpdated)
                 {
-                    return Ok(iseTLBatchSrcUpdated);
+
+                    return StatusCode(StatusCodes.Status200OK, "Data deleted successfully!");
                 }
-                return BadRequest();
+                return StatusCode(StatusCodes.Status400BadRequest, "Issue while deleting the record in the database table!");
+
             }
             else
             {
-                return BadRequest();
+                return StatusCode(StatusCodes.Status400BadRequest, "Invalid data!");
             }
-        }
-
-        ///// <summary>
-        ///// Delete product by id
-        ///// </summary>
-        ///// <param name="productId"></param>
-        ///// <returns></returns>
-        //[HttpDelete("{productId}")]
-        //public async Task<IActionResult> DeleteProduct(int productId)
-        //{
-        //    var isProductCreated = await _productService.DeleteProduct(productId);
-
-        //    if (isProductCreated)
-        //    {
-        //        return Ok(isProductCreated);
-        //    }
-        //    else
-        //    {
-        //        return BadRequest();
-        //    }
-        //}
+        }       
     }
 }
