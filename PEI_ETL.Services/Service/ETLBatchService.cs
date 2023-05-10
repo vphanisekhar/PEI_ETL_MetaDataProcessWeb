@@ -22,19 +22,19 @@ namespace PEI_ETL.Services.Service
 
         public async Task<IEnumerable<ETLBatchDTO>> GetETLBatchAsync()
         {
-            var eTLBatchSrcs = await _unitOfWork.ETLBatchSrc.GetAll();
+            var eTLBatch = await _unitOfWork.ETLBatch.GetAll();
 
             //Active records will in null or active
-            var eTLBatchSrcsActive = eTLBatchSrcs.Where(x=>x.IsActive != false).ToList();
+            var eTLBatchActive = eTLBatch.Where(x=>x.IsActive != false).ToList();
 
-            return _mapper.Map<IEnumerable<ETLBatchDTO>>(eTLBatchSrcsActive);
+            return _mapper.Map<IEnumerable<ETLBatchDTO>>(eTLBatchActive);
         }
 
         public async Task<bool> InsertAsync(ETLBatchDTO eTLBatchDTO)
         {
             eTLBatchDTO.CreatedDate = DateTime.UtcNow;
-            var eTLBatch = _mapper.Map<ETLBatchSrc>(eTLBatchDTO);
-            return await _unitOfWork.ETLBatchSrc.Add(eTLBatch);
+            var eTLBatch = _mapper.Map<ETLBatch>(eTLBatchDTO);
+            return await _unitOfWork.ETLBatch.Add(eTLBatch);
         }
 
         public async Task<bool> UpdateETLBatch(ETLBatchDTO eTLBatchDTO)

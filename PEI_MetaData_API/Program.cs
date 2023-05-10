@@ -27,6 +27,7 @@ builder.Services.AddTransient<IUnitOfWork, UnitOfWork>();
 builder.Services.AddTransient(typeof(ProjectService), typeof(ProjectService));
 builder.Services.AddTransient(typeof(ProductService), typeof(ProductService));
 builder.Services.AddTransient(typeof(ETLBatchSrcService), typeof(ETLBatchSrcService));
+builder.Services.AddTransient(typeof(ETLBatchService), typeof(ETLBatchService));
 
 builder.Services.AddTransient<IClaimsTransformation, ClaimsTransformer>();
 
