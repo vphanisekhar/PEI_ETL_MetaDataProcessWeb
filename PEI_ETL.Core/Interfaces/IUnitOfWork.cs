@@ -7,6 +7,9 @@
         IProductRepository Products { get; }
 
         IETLBatchSrcRepository ETLBatchSrc { get; }
+
+        IETLBatchRepository ETLBatch { get; }
+
         Task<int> CompletedAsync();
     }
 }

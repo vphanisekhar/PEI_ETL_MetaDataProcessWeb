@@ -2,11 +2,12 @@
 using PEI_ETL.Core.Entities;
 using PEI_ETL.Core.Interfaces;
 using PEI_ETL.Services.DTO;
+using PEI_ETL.Services.Interfaces;
 
 namespace PEI_ETL.Services.Service
 {
 
-    public class ETLBatchSrcService
+    public class ETLBatchSrcService: IETLBatchSrcService
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
@@ -36,22 +37,22 @@ namespace PEI_ETL.Services.Service
             return await _unitOfWork.ETLBatchSrc.Add(eTLBatchSrc);
         }
 
-        public async Task<bool> UpdateETLBatchSrc(ETLBatchSrc eTLBatchSrc)
+        public async Task<bool> UpdateETLBatchSrc(ETLBatchSrcDTO eTLBatchSrcDTO)
         {
-            if (eTLBatchSrc != null)
+            if (eTLBatchSrcDTO != null)
             {
-                var eTLBatchSrcDetails = await _unitOfWork.ETLBatchSrc.GetById(eTLBatchSrc.Id);
+                var eTLBatchSrcDetails = await _unitOfWork.ETLBatchSrc.GetById(eTLBatchSrcDTO.Id);
                 if (eTLBatchSrcDetails != null)
                 {
-                    eTLBatchSrcDetails.Batch_Name = eTLBatchSrc.Batch_Name;
-                    eTLBatchSrcDetails.Batch_Type = eTLBatchSrc.Batch_Type;
-                    eTLBatchSrcDetails.Source_Server = eTLBatchSrc.Source_Server;
-                    eTLBatchSrcDetails.Src_Extract_Seq = eTLBatchSrc.Src_Extract_Seq;
-                    eTLBatchSrcDetails.Source_Type = eTLBatchSrc.Source_Type;
-                    eTLBatchSrcDetails.Source_Name = eTLBatchSrc.Source_Name;
-                    eTLBatchSrcDetails.Src_PK_String = eTLBatchSrc.Src_PK_String;
+                    eTLBatchSrcDetails.Batch_Name = eTLBatchSrcDTO.Batch_Name;
+                    eTLBatchSrcDetails.Batch_Type = eTLBatchSrcDTO.Batch_Type;
+                    eTLBatchSrcDetails.Source_Server = eTLBatchSrcDTO.Source_Server;
+                    eTLBatchSrcDetails.Src_Extract_Seq = eTLBatchSrcDTO.Src_Extract_Seq;
+                    eTLBatchSrcDetails.Source_Type = eTLBatchSrcDTO.Source_Type;
+                    eTLBatchSrcDetails.Source_Name = eTLBatchSrcDTO.Source_Name;
+                    eTLBatchSrcDetails.Src_PK_String = eTLBatchSrcDTO.Src_PK_String;
                     eTLBatchSrcDetails.UpdatedDate = DateTime.UtcNow;
-                    eTLBatchSrcDetails.UpdatedBy = eTLBatchSrc.UpdatedBy;
+                    eTLBatchSrcDetails.UpdatedBy = eTLBatchSrcDTO.UpdatedBy;
                     //eTLBatchSrcDetails.IsActive = eTLBatchSrc.IsActive;
 
                     _unitOfWork.ETLBatchSrc.Upsert(eTLBatchSrcDetails);

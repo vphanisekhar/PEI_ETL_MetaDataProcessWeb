@@ -10,13 +10,13 @@ namespace PEI_ETL_MetaDataProcess_APIs.Controllers
 {
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [ApiController]
-    public class ETLBatchSrcController : ControllerBase
+    public class ETLBatchController : ControllerBase
     {
-        private readonly ETLBatchSrcService _eTLBatchSrcService;
+        private readonly ETLBatchService _eTLBatchService;
 
-        public ETLBatchSrcController(ETLBatchSrcService service)
+        public ETLBatchController(ETLBatchService service)
         {
-            _eTLBatchSrcService = service;
+            _eTLBatchService = service;
         }
 
         /// <summary>
@@ -24,18 +24,18 @@ namespace PEI_ETL_MetaDataProcess_APIs.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        [Route("api/ETLBatchSrc/GetETLBatchSrcList")]
-        public async Task<IActionResult> GetETLBatchSrcList()
+        [Route("api/ETLBatch/GetETLBatchList")]
+        public async Task<IActionResult> GetETLBatchList()
         {
-            var eTLBatchSrcList = await _eTLBatchSrcService.GetETLBatchSrcAsync();
-            if (eTLBatchSrcList == null)
+            var eTLBatchList = await _eTLBatchService.GetETLBatchAsync();
+            if (eTLBatchList == null)
             {
                // return NotFound();
                 return StatusCode(StatusCodes.Status404NotFound, "No data available!");
             }
             //return Ok(eTLBatchSrcList);
 
-            return StatusCode(StatusCodes.Status200OK, eTLBatchSrcList);
+            return StatusCode(StatusCodes.Status200OK, eTLBatchList);
         }
 
 
@@ -45,13 +45,13 @@ namespace PEI_ETL_MetaDataProcess_APIs.Controllers
         /// <param name="productDetails"></param>
         /// <returns></returns>
         [HttpPost]
-        [Route("api/ETLBatchSrc/CreateETLBatchSrc")]
-        public async Task<IActionResult> CreateETLBatchSrc(ETLBatchSrcDTO eTLBatchSrc)
+        [Route("api/ETLBatch/CreateETLBatch")]
+        public async Task<IActionResult> CreateETLBatch(ETLBatchDTO eTLBatch)
         {
-            var isETLBatchSrcCreated = await _eTLBatchSrcService.InsertAsync(eTLBatchSrc);
-            await _eTLBatchSrcService.CompletedAsync();
+            var isETLBatchCreated = await _eTLBatchService.InsertAsync(eTLBatch);
+            await _eTLBatchService.CompletedAsync();
 
-            if (isETLBatchSrcCreated)
+            if (isETLBatchCreated)
             {
                 //return Ok(isETLBatchSrcCreated);
 
@@ -64,20 +64,20 @@ namespace PEI_ETL_MetaDataProcess_APIs.Controllers
         }
 
         /// <summary>
-        /// Update ETL batch src
+        /// Update ETL batch 
         /// </summary>
-        /// <param name="eTLBatchSrcDTO"></param>
+        /// <param name="eTLBatchDTO"></param>
         /// <returns></returns>
         [HttpPut]
-        [Route("api/ETLBatchSrc/UpdateETLBatchSrc")]
-        public async Task<IActionResult> UpdateETLBatchSrc(ETLBatchSrcDTO eTLBatchSrcDTO)
+        [Route("api/ETLBatch/UpdateETLBatch")]
+        public async Task<IActionResult> UpdateETLBatch(ETLBatchDTO eTLBatchDTO)
         {
-            if (eTLBatchSrcDTO != null)
+            if (eTLBatchDTO != null)
             {
-                var iseTLBatchSrcUpdated = await _eTLBatchSrcService.UpdateETLBatchSrc(eTLBatchSrcDTO);
-                await _eTLBatchSrcService.CompletedAsync();
+                var iseTLBatchUpdated = await _eTLBatchService.UpdateETLBatch(eTLBatchDTO);
+                await _eTLBatchService.CompletedAsync();
 
-                if (iseTLBatchSrcUpdated)
+                if (iseTLBatchUpdated)
                 {
                     //return Ok(iseTLBatchSrcUpdated);
                     return StatusCode(StatusCodes.Status200OK, "Data updated successfully!");
@@ -94,15 +94,15 @@ namespace PEI_ETL_MetaDataProcess_APIs.Controllers
 
 
         [HttpPut]
-        [Route("api/ETLBatchSrc/DeleteETLBatchSrc")]
-        public async Task<IActionResult> DeleteETLBatchSrc(int Id)
+        [Route("api/ETLBatch/DeleteETLBatch")]
+        public async Task<IActionResult> DeleteETLBatch(int Id)
         {
             if (Id != 0)
             {
-                var iseTLBatchSrcUpdated = await _eTLBatchSrcService.DeleteETLBatchSrc(Id);
-                await _eTLBatchSrcService.CompletedAsync();
+                var iseTLBatchUpdated = await _eTLBatchService.DeleteETLBatch(Id);
+                await _eTLBatchService.CompletedAsync();
 
-                if (iseTLBatchSrcUpdated)
+                if (iseTLBatchUpdated)
                 {
 
                     return StatusCode(StatusCodes.Status200OK, "Data deleted successfully!");

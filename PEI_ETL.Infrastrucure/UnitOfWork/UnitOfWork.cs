@@ -15,6 +15,8 @@ namespace PEI_ETL.Infrastrucure.UnitOfWork
 
         public IETLBatchSrcRepository ETLBatchSrc { get; private set; }
 
+        public IETLBatchRepository ETLBatch { get; private set; }
+
         public UnitOfWork(
             ETLDbContext context,
             ILoggerFactory logger
@@ -28,6 +30,8 @@ namespace PEI_ETL.Infrastrucure.UnitOfWork
             Products =new ProductRepository(_context, _logger);
 
             ETLBatchSrc =new ETLBatchSRCRepository(_context, _logger);
+
+            ETLBatch = new ETLBatchRepository(_context, _logger);
         }
 
         public async Task<int> CompletedAsync()

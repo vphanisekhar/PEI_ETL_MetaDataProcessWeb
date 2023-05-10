@@ -22,5 +22,7 @@ namespace PEI_ETL.Infrastrucure
         public virtual DbSet<ProductDetails> Products { get; set; }
 
         public  virtual DbSet<ETLBatchSrc> ETL_BATCH_SRC { get; set; }
+
+        public virtual DbSet<ETLBatch> ETL_BATCH { get; set; }
     }
 }

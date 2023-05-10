@@ -5,11 +5,11 @@ namespace PEI_ETL.Services.Interfaces
 {
     public interface IETLBatchSrcService
     {
-        Task<IEnumerable<ProductDetailsDTO>> GetETLBatchSrcAsync();
-        Task<bool> InsertAsync(ProductDetailsDTO productDetailsDTO);
+        Task<IEnumerable<ETLBatchSrcDTO>> GetETLBatchSrcAsync();
+        Task<bool> InsertAsync(ETLBatchSrcDTO eTLBatchSrcDTO);
 
-        Task<bool> UpdateETLBatchSrc(ETLBatchSrc eTLBatchSrc);
+        Task<bool> UpdateETLBatchSrc(ETLBatchSrcDTO eTLBatchSrcDTO);
 
-        Task<bool> DeleteETLBatchSrc(ETLBatchSrc eTLBatchSrc);
+        Task<bool> DeleteETLBatchSrc(int Id);
     }
 }
