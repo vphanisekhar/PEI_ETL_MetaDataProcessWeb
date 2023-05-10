@@ -28,14 +28,22 @@ namespace PEI_ETL_MetaDataProcess_APIs.Controllers
         public async Task<IActionResult> GetETLBatchSrcList()
         {
             var eTLBatchSrcList = await _eTLBatchSrcService.GetETLBatchSrcAsync();
+            APIResponce obj = new APIResponce();
             if (eTLBatchSrcList == null)
-            {
-               // return NotFound();
-                return StatusCode(StatusCodes.Status404NotFound, "No data available!");
-            }
-            //return Ok(eTLBatchSrcList);
+            {             
+                obj.StatusCode = StatusCodes.Status404NotFound;
+                obj.Message = "No data available!";
+                obj.Result = "";
 
-            return StatusCode(StatusCodes.Status200OK, eTLBatchSrcList);
+                return NotFound(obj);
+            }
+
+            obj.StatusCode = StatusCodes.Status200OK;
+            obj.Message = "Data retrieved successfully!";
+            obj.Result = eTLBatchSrcList;
+
+            return Ok(obj);
+
         }
 
 
@@ -50,16 +58,29 @@ namespace PEI_ETL_MetaDataProcess_APIs.Controllers
         {
             var isETLBatchSrcCreated = await _eTLBatchSrcService.InsertAsync(eTLBatchSrc);
             await _eTLBatchSrcService.CompletedAsync();
-
+            APIResponce obj = new APIResponce();
             if (isETLBatchSrcCreated)
             {
                 //return Ok(isETLBatchSrcCreated);
 
-                return StatusCode(StatusCodes.Status200OK, "Data created successfully!");
+              //  return StatusCode(StatusCodes.Status200OK, "Data created successfully!");
+
+                obj.StatusCode = StatusCodes.Status200OK;
+                obj.Message = "Data created successfully!";
+                obj.Result = "";
+
+                return Ok(obj);
             }
             else
             {
-                return StatusCode(StatusCodes.Status400BadRequest, "Issue while creating the record in the database table!");
+                // return StatusCode(StatusCodes.Status400BadRequest, "Issue while creating the record in the database table!");
+
+                obj.StatusCode = StatusCodes.Status400BadRequest;
+                obj.Message = "Issue while creating the record in the database table!";
+                obj.Result = "";
+
+                return BadRequest(obj);
+
             }
         }
 
@@ -72,22 +93,42 @@ namespace PEI_ETL_MetaDataProcess_APIs.Controllers
         [Route("api/ETLBatchSrc/UpdateETLBatchSrc")]
         public async Task<IActionResult> UpdateETLBatchSrc(ETLBatchSrcDTO eTLBatchSrcDTO)
         {
+            APIResponce obj = new APIResponce();
             if (eTLBatchSrcDTO != null)
             {
                 var iseTLBatchSrcUpdated = await _eTLBatchSrcService.UpdateETLBatchSrc(eTLBatchSrcDTO);
                 await _eTLBatchSrcService.CompletedAsync();
+                
 
                 if (iseTLBatchSrcUpdated)
                 {
                     //return Ok(iseTLBatchSrcUpdated);
-                    return StatusCode(StatusCodes.Status200OK, "Data updated successfully!");
+                    // return StatusCode(StatusCodes.Status200OK, "Data updated successfully!");
+
+                    obj.StatusCode = StatusCodes.Status200OK;
+                    obj.Message = "Data updated successfully!";
+                    obj.Result = "";
+
+                    return Ok(obj);
                 }
-                return StatusCode(StatusCodes.Status400BadRequest, "Issue while updating the record in the database table!");
+                //   return StatusCode(StatusCodes.Status400BadRequest, "Issue while updating the record in the database table!");
+
+                obj.StatusCode = StatusCodes.Status400BadRequest;
+                obj.Message = "Issue while updating the record in the database table!";
+                obj.Result = "";
+
+                return BadRequest(obj);
 
             }
             else
             {
-                return StatusCode(StatusCodes.Status400BadRequest, "Invalid data!");
+                // return StatusCode(StatusCodes.Status400BadRequest, "Invalid data!");
+
+                obj.StatusCode = StatusCodes.Status400BadRequest;
+                obj.Message = "Invalid data!";
+                obj.Result = "";
+
+                return BadRequest(obj);
 
             }
         }
@@ -97,6 +138,7 @@ namespace PEI_ETL_MetaDataProcess_APIs.Controllers
         [Route("api/ETLBatchSrc/DeleteETLBatchSrc")]
         public async Task<IActionResult> DeleteETLBatchSrc(int Id)
         {
+            APIResponce obj = new APIResponce();
             if (Id != 0)
             {
                 var iseTLBatchSrcUpdated = await _eTLBatchSrcService.DeleteETLBatchSrc(Id);
@@ -105,14 +147,30 @@ namespace PEI_ETL_MetaDataProcess_APIs.Controllers
                 if (iseTLBatchSrcUpdated)
                 {
 
-                    return StatusCode(StatusCodes.Status200OK, "Data deleted successfully!");
-                }
-                return StatusCode(StatusCodes.Status400BadRequest, "Issue while deleting the record in the database table!");
+                    //  return StatusCode(StatusCodes.Status200OK, "Data deleted successfully!");
 
+                    obj.StatusCode = StatusCodes.Status200OK;
+                    obj.Message = "Data deleted successfully!";
+                    obj.Result = "";
+
+                    return Ok(obj);
+                }
+                //  return StatusCode(StatusCodes.Status400BadRequest, "Issue while deleting the record in the database table!");
+                obj.StatusCode = StatusCodes.Status400BadRequest;
+                obj.Message = "Issue while deleting the record in the database table!";
+                obj.Result = "";
+
+                return BadRequest(obj);
             }
             else
             {
-                return StatusCode(StatusCodes.Status400BadRequest, "Invalid data!");
+                // return StatusCode(StatusCodes.Status400BadRequest, "Invalid data!");
+
+                obj.StatusCode = StatusCodes.Status400BadRequest;
+                obj.Message = "Invalid data!";
+                obj.Result = "";
+
+                return BadRequest(obj);
             }
         }       
     }
