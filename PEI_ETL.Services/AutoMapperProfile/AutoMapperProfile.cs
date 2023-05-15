@@ -17,6 +17,9 @@ namespace PEI_ETL.Services.AutoMapperProfile
             CreateMap<ETLBatchSrcDTO, ETLBatchSrc>().ReverseMap();
 
             CreateMap<ETLBatchDTO, ETLBatch>().ReverseMap();
+
+
+            CreateMap<ETLBatchStepDTO, ETLBatchStep>().ReverseMap();
         }
     }
 }
