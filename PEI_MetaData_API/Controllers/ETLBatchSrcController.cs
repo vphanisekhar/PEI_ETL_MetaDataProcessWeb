@@ -172,6 +172,29 @@ namespace PEI_ETL_MetaDataProcess_APIs.Controllers
 
                 return BadRequest(obj);
             }
-        }       
+        }
+
+        [HttpGet]
+        [Route("api/ETLBatchSrc/GetETLBatchSrcListByBatchName")]
+        public async Task<IActionResult> GetETLBatchSrcListByBatchName(string batchName)
+        {
+            var eTLBatchSrcList = await _eTLBatchSrcService.GetETLBatchSrcByBatchNameAsync(batchName);
+            APIResponce obj = new APIResponce();
+            if (eTLBatchSrcList == null)
+            {
+                obj.StatusCode = StatusCodes.Status404NotFound;
+                obj.Message = "No data available!";
+                obj.Result = "";
+
+                return NotFound(obj);
+            }
+
+            obj.StatusCode = StatusCodes.Status200OK;
+            obj.Message = "Data retrieved successfully!";
+            obj.Result = eTLBatchSrcList;
+
+            return Ok(obj);
+
+        }
     }
 }
