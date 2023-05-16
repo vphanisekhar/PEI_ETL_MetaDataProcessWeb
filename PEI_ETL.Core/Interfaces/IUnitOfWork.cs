@@ -10,7 +10,7 @@
 
         IETLBatchRepository ETLBatch { get; }
 
-        IETLBatchStepRepository ETLBatchStep { get; }
+        IETLBatchSrcStepRepository ETLBatchSrcStep { get; }
 
         Task<int> CompletedAsync();
     }

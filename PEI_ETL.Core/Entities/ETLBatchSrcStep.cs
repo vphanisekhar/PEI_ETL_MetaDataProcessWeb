@@ -1,10 +1,6 @@
-﻿
-
-using PEI_ETL.Core.Entities;
-
-namespace PEI_ETL.Services.DTO
+﻿namespace PEI_ETL.Core.Entities
 {
-    public class ETLBatchStepDTO : AuditColumns
+    public class ETLBatchSrcStep: AuditColumns
     {
         public int Id { get; set; }
         public string? Batch_Name { get; set; }
@@ -19,7 +15,6 @@ namespace PEI_ETL.Services.DTO
         public string? Source_Step_Prgm { get; set; }
 
         public bool IsActive { get; set; }
-
 
     }
 }

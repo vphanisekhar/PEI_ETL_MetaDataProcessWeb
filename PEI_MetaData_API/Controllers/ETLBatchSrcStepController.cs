@@ -10,11 +10,11 @@ namespace PEI_ETL_MetaDataProcess_APIs.Controllers
 {
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [ApiController]
-    public class ETLBatchStepController : ControllerBase
+    public class ETLBatchSrcStepController : ControllerBase
     {
-        private readonly ETLBatchStepService _eTLBatchStepService;
+        private readonly ETLBatchSrcStepService _eTLBatchStepService;
 
-        public ETLBatchStepController(ETLBatchStepService service)
+        public ETLBatchSrcStepController(ETLBatchSrcStepService service)
         {
             _eTLBatchStepService = service;
         }
@@ -24,10 +24,10 @@ namespace PEI_ETL_MetaDataProcess_APIs.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        [Route("api/ETLBatchStep/GetETLBatchStepList")]
-        public async Task<IActionResult> GetETLBatchStepList()
+        [Route("api/ETLBatchStep/GetETLBatchSrcStepList")]
+        public async Task<IActionResult> GetETLBatchSrcStepList()
         {
-            var eTLBatchStepList = await _eTLBatchStepService.GetETLBatchStepAsync();
+            var eTLBatchStepList = await _eTLBatchStepService.GetETLBatchSrcStepAsync();
             APIResponce obj = new APIResponce();
             if (eTLBatchStepList == null)
             {             
@@ -53,8 +53,8 @@ namespace PEI_ETL_MetaDataProcess_APIs.Controllers
         /// <param name="productDetails"></param>
         /// <returns></returns>
         [HttpPost]
-        [Route("api/ETLBatchStep/CreateETLBatchStep")]
-        public async Task<IActionResult> CreateETLBatchStep(ETLBatchStepDTO eTLBatchStep)
+        [Route("api/ETLBatchStep/CreateETLBatchSrcStep")]
+        public async Task<IActionResult> CreateETLBatchSrcStep(ETLBatchSrcStepDTO eTLBatchStep)
         {
             var isETLBatchStepCreated = await _eTLBatchStepService.InsertAsync(eTLBatchStep);
             await _eTLBatchStepService.CompletedAsync();
@@ -90,13 +90,13 @@ namespace PEI_ETL_MetaDataProcess_APIs.Controllers
         /// <param name="eTLBatchStepDTO"></param>
         /// <returns></returns>
         [HttpPut]
-        [Route("api/ETLBatchStep/UpdateETLBatchStep")]
-        public async Task<IActionResult> UpdateETLBatchStep(ETLBatchStepDTO eTLBatchStepDTO)
+        [Route("api/ETLBatchStep/UpdateETLBatchSrcStep")]
+        public async Task<IActionResult> UpdateETLBatchSrcStep(ETLBatchSrcStepDTO eTLBatchStepDTO)
         {
             APIResponce obj = new APIResponce();
             if (eTLBatchStepDTO != null)
             {
-                var iseTLBatchStepUpdated = await _eTLBatchStepService.UpdateETLBatchStep(eTLBatchStepDTO);
+                var iseTLBatchStepUpdated = await _eTLBatchStepService.UpdateETLBatchSrcStep(eTLBatchStepDTO);
                 await _eTLBatchStepService.CompletedAsync();
                 
 
@@ -135,13 +135,13 @@ namespace PEI_ETL_MetaDataProcess_APIs.Controllers
 
 
         [HttpPut]
-        [Route("api/ETLBatchStep/DeleteETLBatchStep")]
-        public async Task<IActionResult> DeleteETLBatchStep(int Id)
+        [Route("api/ETLBatchStep/DeleteETLBatchSrcStep")]
+        public async Task<IActionResult> DeleteETLBatchSrcStep(int Id)
         {
             APIResponce obj = new APIResponce();
             if (Id != 0)
             {
-                var iseTLBatchStepUpdated = await _eTLBatchStepService.DeleteETLBatchStep(Id);
+                var iseTLBatchStepUpdated = await _eTLBatchStepService.DeleteETLBatchSrcStep(Id);
                 await _eTLBatchStepService.CompletedAsync();
 
                 if (iseTLBatchStepUpdated)

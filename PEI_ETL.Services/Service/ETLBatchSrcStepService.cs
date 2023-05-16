@@ -7,11 +7,11 @@ using PEI_ETL.Services.Interfaces;
 namespace PEI_ETL.Services.Service
 {
 
-    public class ETLBatchStepService:IETLBatchStepService
+    public class ETLBatchSrcStepService:IETLBatchSrcStepService
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
-        public ETLBatchStepService(
+        public ETLBatchSrcStepService(
             IUnitOfWork unitOfWork,
             IMapper mapper
             )
@@ -20,28 +20,28 @@ namespace PEI_ETL.Services.Service
             _mapper = mapper;
         }
 
-        public async Task<IEnumerable<ETLBatchStepDTO>> GetETLBatchStepAsync()
+        public async Task<IEnumerable<ETLBatchSrcStepDTO>> GetETLBatchSrcStepAsync()
         {
-            var ETLBatchStep = await _unitOfWork.ETLBatchStep.GetAll();
+            var ETLBatchStep = await _unitOfWork.ETLBatchSrcStep.GetAll();
 
             //Active records will in null or active
             var ETLBatchStepActive = ETLBatchStep.Where(x=>x.IsActive != false).ToList();
 
-            return _mapper.Map<IEnumerable<ETLBatchStepDTO>>(ETLBatchStepActive);
+            return _mapper.Map<IEnumerable<ETLBatchSrcStepDTO>>(ETLBatchStepActive);
         }
 
-        public async Task<bool> InsertAsync(ETLBatchStepDTO ETLBatchStepDTO)
+        public async Task<bool> InsertAsync(ETLBatchSrcStepDTO ETLBatchStepDTO)
         {
             ETLBatchStepDTO.CreatedDate = DateTime.UtcNow;
-            var ETLBatchStep = _mapper.Map<ETLBatchStep>(ETLBatchStepDTO);
-            return await _unitOfWork.ETLBatchStep.Add(ETLBatchStep);
+            var ETLBatchStep = _mapper.Map<ETLBatchSrcStep>(ETLBatchStepDTO);
+            return await _unitOfWork.ETLBatchSrcStep.Add(ETLBatchStep);
         }
 
-        public async Task<bool> UpdateETLBatchStep(ETLBatchStepDTO ETLBatchStepDTO)
+        public async Task<bool> UpdateETLBatchSrcStep(ETLBatchSrcStepDTO ETLBatchStepDTO)
         {
             if (ETLBatchStepDTO != null)
             {
-                var ETLBatchStepDetails = await _unitOfWork.ETLBatchStep.GetById(ETLBatchStepDTO.Id);
+                var ETLBatchStepDetails = await _unitOfWork.ETLBatchSrcStep.GetById(ETLBatchStepDTO.Id);
                 if (ETLBatchStepDetails != null)
                 {
                     ETLBatchStepDetails.Batch_Name = ETLBatchStepDTO.Batch_Name;
@@ -55,7 +55,7 @@ namespace PEI_ETL.Services.Service
                     ETLBatchStepDetails.UpdatedBy = ETLBatchStepDTO.UpdatedBy;
                     //ETLBatchStepSrcDetails.IsActive = ETLBatchStepSrc.IsActive;
 
-                    _unitOfWork.ETLBatchStep.Upsert(ETLBatchStepDetails);
+                    _unitOfWork.ETLBatchSrcStep.Upsert(ETLBatchStepDetails);
                     return true;
 
                     //var result = _unitOfWork.Save();
@@ -69,16 +69,16 @@ namespace PEI_ETL.Services.Service
             return false;
         }
             
-        public async Task<bool> DeleteETLBatchStep(int Id)
+        public async Task<bool> DeleteETLBatchSrcStep(int Id)
         {
             if (Id != 0)
             {
-                var ETLBatchStepDetails = await _unitOfWork.ETLBatchStep.GetById(Id);
+                var ETLBatchStepDetails = await _unitOfWork.ETLBatchSrcStep.GetById(Id);
                 if (ETLBatchStepDetails != null)
                 {                    
                     ETLBatchStepDetails.IsActive = false;
 
-                    _unitOfWork.ETLBatchStep.Upsert(ETLBatchStepDetails);
+                    _unitOfWork.ETLBatchSrcStep.Upsert(ETLBatchStepDetails);
                     return true;
 
                     //var result = _unitOfWork.Save();
