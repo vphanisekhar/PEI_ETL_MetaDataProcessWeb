@@ -13,6 +13,8 @@ namespace PEI_ETL.Services.DTO
 
         public string? Source_Name { get; set; }
 
+        public string? Source_Id { get; set; }
+
         public int Src_Extract_Seq { get; set; }
 
         public string? Src_PK_String { get; set; }

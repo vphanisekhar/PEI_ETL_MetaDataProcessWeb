@@ -50,6 +50,7 @@ namespace PEI_ETL.Services.Service
                     eTLBatchSrcDetails.Src_Extract_Seq = eTLBatchSrcDTO.Src_Extract_Seq;
                     eTLBatchSrcDetails.Source_Type = eTLBatchSrcDTO.Source_Type;
                     eTLBatchSrcDetails.Source_Name = eTLBatchSrcDTO.Source_Name;
+                    eTLBatchSrcDetails.Source_Id = eTLBatchSrcDTO.Source_Id;
                     eTLBatchSrcDetails.Src_PK_String = eTLBatchSrcDTO.Src_PK_String;
                     eTLBatchSrcDetails.UpdatedDate = DateTime.UtcNow;
                     eTLBatchSrcDetails.UpdatedBy = eTLBatchSrcDTO.UpdatedBy;
