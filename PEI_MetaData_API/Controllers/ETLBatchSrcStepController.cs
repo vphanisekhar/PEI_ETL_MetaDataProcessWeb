@@ -12,11 +12,11 @@ namespace PEI_ETL_MetaDataProcess_APIs.Controllers
     [ApiController]
     public class ETLBatchSrcStepController : ControllerBase
     {
-        private readonly ETLBatchSrcStepService _eTLBatchStepService;
+        private readonly ETLBatchSrcStepService _eTLBatchSrcStepService;
 
         public ETLBatchSrcStepController(ETLBatchSrcStepService service)
         {
-            _eTLBatchStepService = service;
+            _eTLBatchSrcStepService = service;
         }
 
         /// <summary>
@@ -24,12 +24,12 @@ namespace PEI_ETL_MetaDataProcess_APIs.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        [Route("api/ETLBatchStep/GetETLBatchSrcStepList")]
+        [Route("api/ETLBatchSrcStep/GetETLBatchSrcStepList")]
         public async Task<IActionResult> GetETLBatchSrcStepList()
         {
-            var eTLBatchStepList = await _eTLBatchStepService.GetETLBatchSrcStepAsync();
+            var ETLBatchSrcStepList = await _eTLBatchSrcStepService.GetETLBatchSrcStepAsync();
             APIResponce obj = new APIResponce();
-            if (eTLBatchStepList == null)
+            if (ETLBatchSrcStepList == null)
             {             
                 obj.StatusCode = StatusCodes.Status404NotFound;
                 obj.Message = "No data available!";
@@ -40,7 +40,7 @@ namespace PEI_ETL_MetaDataProcess_APIs.Controllers
 
             obj.StatusCode = StatusCodes.Status200OK;
             obj.Message = "Data retrieved successfully!";
-            obj.Result = eTLBatchStepList;
+            obj.Result = ETLBatchSrcStepList;
 
             return Ok(obj);
 
@@ -53,13 +53,13 @@ namespace PEI_ETL_MetaDataProcess_APIs.Controllers
         /// <param name="productDetails"></param>
         /// <returns></returns>
         [HttpPost]
-        [Route("api/ETLBatchStep/CreateETLBatchSrcStep")]
-        public async Task<IActionResult> CreateETLBatchSrcStep(ETLBatchSrcStepDTO eTLBatchStep)
+        [Route("api/ETLBatchSrcStep/CreateETLBatchSrcStep")]
+        public async Task<IActionResult> CreateETLBatchSrcStep(ETLBatchSrcStepDTO eTLBatchSrcStep)
         {
-            var isETLBatchStepCreated = await _eTLBatchStepService.InsertAsync(eTLBatchStep);
-            await _eTLBatchStepService.CompletedAsync();
+            var isETLBatchSrcStepCreated = await _eTLBatchSrcStepService.InsertAsync(eTLBatchSrcStep);
+            await _eTLBatchSrcStepService.CompletedAsync();
             APIResponce obj = new APIResponce();
-            if (isETLBatchStepCreated)
+            if (isETLBatchSrcStepCreated)
             {
                 //return Ok(isETLBatchStepCreated);
 
@@ -87,20 +87,20 @@ namespace PEI_ETL_MetaDataProcess_APIs.Controllers
         /// <summary>
         /// Update ETL batch Step
         /// </summary>
-        /// <param name="eTLBatchStepDTO"></param>
+        /// <param name="ETLBatchSrcStepDTO"></param>
         /// <returns></returns>
         [HttpPut]
-        [Route("api/ETLBatchStep/UpdateETLBatchSrcStep")]
-        public async Task<IActionResult> UpdateETLBatchSrcStep(ETLBatchSrcStepDTO eTLBatchStepDTO)
+        [Route("api/ETLBatchSrcStep/UpdateETLBatchSrcStep")]
+        public async Task<IActionResult> UpdateETLBatchSrcStep(ETLBatchSrcStepDTO eTLBatchSrcStepDTO)
         {
             APIResponce obj = new APIResponce();
-            if (eTLBatchStepDTO != null)
+            if (eTLBatchSrcStepDTO != null)
             {
-                var iseTLBatchStepUpdated = await _eTLBatchStepService.UpdateETLBatchSrcStep(eTLBatchStepDTO);
-                await _eTLBatchStepService.CompletedAsync();
+                var iseTLBatchSrcStepUpdated = await _eTLBatchSrcStepService.UpdateETLBatchSrcStep(eTLBatchSrcStepDTO);
+                await _eTLBatchSrcStepService.CompletedAsync();
                 
 
-                if (iseTLBatchStepUpdated)
+                if (iseTLBatchSrcStepUpdated)
                 {
                     //return Ok(iseTLBatchStepUpdated);
                     // return StatusCode(StatusCodes.Status200OK, "Data updated successfully!");
@@ -135,16 +135,16 @@ namespace PEI_ETL_MetaDataProcess_APIs.Controllers
 
 
         [HttpPut]
-        [Route("api/ETLBatchStep/DeleteETLBatchSrcStep")]
+        [Route("api/ETLBatchSrcStep/DeleteETLBatchSrcStep")]
         public async Task<IActionResult> DeleteETLBatchSrcStep(int Id)
         {
             APIResponce obj = new APIResponce();
             if (Id != 0)
             {
-                var iseTLBatchStepUpdated = await _eTLBatchStepService.DeleteETLBatchSrcStep(Id);
-                await _eTLBatchStepService.CompletedAsync();
+                var iseTLBatchSrcStepUpdated = await _eTLBatchSrcStepService.DeleteETLBatchSrcStep(Id);
+                await _eTLBatchSrcStepService.CompletedAsync();
 
-                if (iseTLBatchStepUpdated)
+                if (iseTLBatchSrcStepUpdated)
                 {
 
                     //  return StatusCode(StatusCodes.Status200OK, "Data deleted successfully!");
@@ -173,6 +173,29 @@ namespace PEI_ETL_MetaDataProcess_APIs.Controllers
                 return BadRequest(obj);
             }
         }
-              
+
+        [HttpGet]
+        [Route("api/ETLBatchSrcStep/GetETLBatchSrcStepFilter")]
+        public async Task<IActionResult> GetETLBatchSrcStepFilter(string batchName, string sourceId)
+        {
+            var eTLBatchSrcStepList = await _eTLBatchSrcStepService.GetETLBatchSrcStepFilterAsync(batchName, sourceId);
+            APIResponce obj = new APIResponce();
+            if (eTLBatchSrcStepList == null)
+            {
+                obj.StatusCode = StatusCodes.Status404NotFound;
+                obj.Message = "No data available!";
+                obj.Result = "";
+
+                return NotFound(obj);
+            }
+
+            obj.StatusCode = StatusCodes.Status200OK;
+            obj.Message = "Data retrieved successfully!";
+            obj.Result = eTLBatchSrcStepList;
+
+            return Ok(obj);
+
+        }
+
     }
 }

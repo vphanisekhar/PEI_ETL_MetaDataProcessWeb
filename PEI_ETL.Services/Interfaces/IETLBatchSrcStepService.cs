@@ -11,5 +11,7 @@ namespace PEI_ETL.Services.Interfaces
         Task<bool> UpdateETLBatchSrcStep(ETLBatchSrcStepDTO eTLBatchStepDTO);
 
         Task<bool> DeleteETLBatchSrcStep(int Id);
+
+        Task<IEnumerable<ETLBatchSrcStepDTO>> GetETLBatchSrcStepFilterAsync(string batchName, string sourceId);
     }
 }

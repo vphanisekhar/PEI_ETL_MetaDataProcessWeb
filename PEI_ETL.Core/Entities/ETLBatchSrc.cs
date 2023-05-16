@@ -1,8 +1,11 @@
-﻿namespace PEI_ETL.Core.Entities
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace PEI_ETL.Core.Entities
 {
     public class ETLBatchSrc : AuditColumns
     {
         public int Id { get; set; }
+
         public string? Batch_Name { get; set; }
         public string? Batch_Type { get; set; }
         public string? Source_Type { get; set; }

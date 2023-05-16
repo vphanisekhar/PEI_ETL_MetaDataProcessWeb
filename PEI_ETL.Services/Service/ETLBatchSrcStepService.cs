@@ -92,6 +92,16 @@ namespace PEI_ETL.Services.Service
             return false;
         }
 
+        public async Task<IEnumerable<ETLBatchSrcStepDTO>> GetETLBatchSrcStepFilterAsync(string batchName,string sourceId)
+        {
+            var eTLBatchSrcSteps = await _unitOfWork.ETLBatchSrcStep.GetAll();
+
+            //Active records will in null or active
+            var eTLBatchSrcStepsActive = eTLBatchSrcSteps.Where(x => x.IsActive != false && x.Batch_Name == batchName && x.Source_Id == sourceId).ToList();
+
+            return _mapper.Map<IEnumerable<ETLBatchSrcStepDTO>>(eTLBatchSrcStepsActive);
+        }
+
         public async Task<int> CompletedAsync()
         {
             return await _unitOfWork.CompletedAsync();
