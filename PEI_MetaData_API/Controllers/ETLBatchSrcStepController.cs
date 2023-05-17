@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PEI_ETL.Core.Entities;
 using PEI_ETL.Services.DTO;
-using PEI_ETL.Services.Interfaces;
 using PEI_ETL.Services.Service;
 
 namespace PEI_ETL_MetaDataProcess_APIs.Controllers
