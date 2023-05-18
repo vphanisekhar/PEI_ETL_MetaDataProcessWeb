@@ -1,12 +1,15 @@
 ﻿
 
 using PEI_ETL.Core.Entities;
+using System.ComponentModel.DataAnnotations;
 
 namespace PEI_ETL.Services.DTO
 {
     public class ETLBatchDTO : AuditColumns
     {
         public int Id { get; set; }
+        [Required(ErrorMessage = "Batch name is required!")]
+        [MaxLength(255)]
         public string Batch_Name { get; set; }
         public string? Batch_Type { get; set; }
         public string CDCPK_POINTER_TABLE { get; set; }

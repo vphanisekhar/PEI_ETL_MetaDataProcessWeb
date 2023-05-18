@@ -11,12 +11,18 @@ namespace PEI_ETL.Services.DTO
         [Required(ErrorMessage ="Batch name is required!")]
         [MaxLength(255)]
         public string? Batch_Name { get; set; }
+
+        [MaxLength(255)]
         public string? Batch_Type { get; set; }
+
+        [MaxLength(60)]
         public string? Source_Type { get; set; }
 
         [MaxLength(1000)]
         public string? Source_Name { get; set; }
 
+        [Required(ErrorMessage = "Source Id is required!")]
+        [MaxLength(50)]
         public string? Source_Id { get; set; }
 
         [Range(0, int.MaxValue, ErrorMessage = "Please enter valid integer Number for Src_Extract_Seq!")]
@@ -24,7 +30,7 @@ namespace PEI_ETL.Services.DTO
 
         [MaxLength(2000)]
         public string? Src_PK_String { get; set; }
-
+        [MaxLength(50)]
         public string? Source_Server { get; set; }
 
         public bool IsActive { get; set; }
