@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using PEI_ETL.Core.Entities;
 using PEI_ETL.Services.DTO;
 using PEI_ETL.Services.Service;
+using System.Text.Json;
 
 namespace PEI_ETL_MetaDataProcess_APIs.Controllers
 {
@@ -12,10 +13,12 @@ namespace PEI_ETL_MetaDataProcess_APIs.Controllers
     public class ETLBatchSrcStepController : ControllerBase
     {
         private readonly ETLBatchSrcStepService _eTLBatchSrcStepService;
+        private readonly ILogger<ETLBatchSrcStepController> _logger;
 
-        public ETLBatchSrcStepController(ETLBatchSrcStepService service)
+        public ETLBatchSrcStepController(ETLBatchSrcStepService service, ILogger<ETLBatchSrcStepController> logger)
         {
             _eTLBatchSrcStepService = service;
+            _logger = logger;
         }
 
         /// <summary>
@@ -29,7 +32,7 @@ namespace PEI_ETL_MetaDataProcess_APIs.Controllers
             var ETLBatchSrcStepList = await _eTLBatchSrcStepService.GetETLBatchSrcStepAsync();
             APIResponce obj = new APIResponce();
             if (ETLBatchSrcStepList == null)
-            {             
+            {
                 obj.StatusCode = StatusCodes.Status404NotFound;
                 obj.Message = "No data available!";
                 obj.Result = "";
@@ -55,6 +58,9 @@ namespace PEI_ETL_MetaDataProcess_APIs.Controllers
         [Route("api/ETLBatchSrcStep/CreateETLBatchSrcStep")]
         public async Task<IActionResult> CreateETLBatchSrcStep(ETLBatchSrcStepDTO eTLBatchSrcStep)
         {
+            _logger.LogInformation("Executing {Action} with parameters: {Parameters}", nameof(CreateETLBatchSrcStep), JsonSerializer.Serialize(eTLBatchSrcStep));
+
+
             var isETLBatchSrcStepCreated = await _eTLBatchSrcStepService.InsertAsync(eTLBatchSrcStep);
             await _eTLBatchSrcStepService.CompletedAsync();
             APIResponce obj = new APIResponce();
@@ -62,7 +68,7 @@ namespace PEI_ETL_MetaDataProcess_APIs.Controllers
             {
                 //return Ok(isETLBatchStepCreated);
 
-              //  return StatusCode(StatusCodes.Status200OK, "Data created successfully!");
+                //  return StatusCode(StatusCodes.Status200OK, "Data created successfully!");
 
                 obj.StatusCode = StatusCodes.Status200OK;
                 obj.Message = "Data created successfully!";
@@ -73,6 +79,8 @@ namespace PEI_ETL_MetaDataProcess_APIs.Controllers
             else
             {
                 // return StatusCode(StatusCodes.Status400BadRequest, "Issue while creating the record in the database table!");
+                _logger.LogError("Issue while creating the record in the database table!");
+
 
                 obj.StatusCode = StatusCodes.Status400BadRequest;
                 obj.Message = "Issue while creating the record in the database table!";
@@ -92,12 +100,16 @@ namespace PEI_ETL_MetaDataProcess_APIs.Controllers
         [Route("api/ETLBatchSrcStep/UpdateETLBatchSrcStep")]
         public async Task<IActionResult> UpdateETLBatchSrcStep(ETLBatchSrcStepDTO eTLBatchSrcStepDTO)
         {
+            _logger.LogInformation("Executing {Action} with parameters: {Parameters}", nameof(UpdateETLBatchSrcStep), JsonSerializer.Serialize(eTLBatchSrcStepDTO));
+
+
+
             APIResponce obj = new APIResponce();
             if (eTLBatchSrcStepDTO != null)
             {
                 var iseTLBatchSrcStepUpdated = await _eTLBatchSrcStepService.UpdateETLBatchSrcStep(eTLBatchSrcStepDTO);
                 await _eTLBatchSrcStepService.CompletedAsync();
-                
+
 
                 if (iseTLBatchSrcStepUpdated)
                 {
@@ -111,8 +123,9 @@ namespace PEI_ETL_MetaDataProcess_APIs.Controllers
                     return Ok(obj);
                 }
                 //   return StatusCode(StatusCodes.Status400BadRequest, "Issue while updating the record in the database table!");
+                _logger.LogError("Issue while updating the record in the database table!");
 
-                obj.StatusCode = StatusCodes.Status400BadRequest;
+                                obj.StatusCode = StatusCodes.Status400BadRequest;
                 obj.Message = "Issue while updating the record in the database table!";
                 obj.Result = "";
 
@@ -122,6 +135,8 @@ namespace PEI_ETL_MetaDataProcess_APIs.Controllers
             else
             {
                 // return StatusCode(StatusCodes.Status400BadRequest, "Invalid data!");
+                _logger.LogWarning("Invalid data!");
+
 
                 obj.StatusCode = StatusCodes.Status400BadRequest;
                 obj.Message = "Invalid data!";
@@ -137,6 +152,11 @@ namespace PEI_ETL_MetaDataProcess_APIs.Controllers
         [Route("api/ETLBatchSrcStep/DeleteETLBatchSrcStep")]
         public async Task<IActionResult> DeleteETLBatchSrcStep(int Id)
         {
+            _logger.LogInformation("Executing {Action} with parameters: {Parameters}", nameof(DeleteETLBatchSrcStep), JsonSerializer.Serialize(Id));
+
+            
+
+
             APIResponce obj = new APIResponce();
             if (Id != 0)
             {
@@ -154,6 +174,8 @@ namespace PEI_ETL_MetaDataProcess_APIs.Controllers
 
                     return Ok(obj);
                 }
+
+                _logger.LogError("Issue while deleting the record in the database table!");
                 //  return StatusCode(StatusCodes.Status400BadRequest, "Issue while deleting the record in the database table!");
                 obj.StatusCode = StatusCodes.Status400BadRequest;
                 obj.Message = "Issue while deleting the record in the database table!";
@@ -164,7 +186,7 @@ namespace PEI_ETL_MetaDataProcess_APIs.Controllers
             else
             {
                 // return StatusCode(StatusCodes.Status400BadRequest, "Invalid data!");
-
+                _logger.LogWarning("Invalid data!");
                 obj.StatusCode = StatusCodes.Status400BadRequest;
                 obj.Message = "Invalid data!";
                 obj.Result = "";
