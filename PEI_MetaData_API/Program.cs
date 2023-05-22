@@ -13,6 +13,10 @@ using Microsoft.AspNetCore.Authentication;
 
 var builder = WebApplication.CreateBuilder(args);
 
+//Logging added
+builder.Logging.ClearProviders();
+builder.Logging.AddConsole();
+
 //PHANI added
 builder.Services.AddCors();
 

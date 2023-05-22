@@ -41,6 +41,8 @@ namespace PEI_ETL_MetaDataProcess_APIs.Controllers
                 obj.Message = "No data available!";
                 obj.Result = "";
 
+                _logger.LogWarning("Executing {Action} and returning results with count 0", nameof(GetETLBatchList));
+
                 return NotFound(obj);
             }
             //return Ok(eTLBatchSrcList);
@@ -50,6 +52,8 @@ namespace PEI_ETL_MetaDataProcess_APIs.Controllers
             obj.StatusCode = StatusCodes.Status200OK;
             obj.Message = "Data retrieved successfully!";
             obj.Result = eTLBatchList;
+
+            _logger.LogInformation("Executing {Action} and returning results with count {0}", nameof(GetETLBatchList), JsonSerializer.Serialize(eTLBatchList.Count()));
 
             return Ok(obj);
         }
