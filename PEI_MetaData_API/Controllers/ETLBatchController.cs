@@ -5,6 +5,7 @@ using PEI_ETL.Core.Entities;
 using PEI_ETL.Services.DTO;
 using PEI_ETL.Services.Interfaces;
 using PEI_ETL.Services.Service;
+using System.Text.Json;
 
 namespace PEI_ETL_MetaDataProcess_APIs.Controllers
 {
@@ -13,10 +14,13 @@ namespace PEI_ETL_MetaDataProcess_APIs.Controllers
     public class ETLBatchController : ControllerBase
     {
         private readonly ETLBatchService _eTLBatchService;
+        private readonly ILogger<ETLBatchController> _logger;
 
-        public ETLBatchController(ETLBatchService service)
+
+        public ETLBatchController(ETLBatchService service, ILogger<ETLBatchController> logger)
         {
             _eTLBatchService = service;
+            _logger = logger;
         }
 
         /// <summary>
@@ -60,6 +64,8 @@ namespace PEI_ETL_MetaDataProcess_APIs.Controllers
         [Route("api/ETLBatch/CreateETLBatch")]
         public async Task<IActionResult> CreateETLBatch(ETLBatchDTO eTLBatch)
         {
+            _logger.LogInformation("Executing {Action} with parameters: {Parameters}", nameof(CreateETLBatch), JsonSerializer.Serialize(eTLBatch));
+
             var isETLBatchCreated = await _eTLBatchService.InsertAsync(eTLBatch);
             await _eTLBatchService.CompletedAsync();
             APIResponce obj = new APIResponce();
@@ -78,6 +84,8 @@ namespace PEI_ETL_MetaDataProcess_APIs.Controllers
             }
             else
             {
+                _logger.LogError("Issue while creating the record in the database table!");
+
                 // return StatusCode(StatusCodes.Status400BadRequest, "Issue while creating the record in the database table!");
                 obj.StatusCode = StatusCodes.Status400BadRequest;
                 obj.Message = "Issue while creating the record in the database table!";
@@ -97,6 +105,8 @@ namespace PEI_ETL_MetaDataProcess_APIs.Controllers
         [Route("api/ETLBatch/UpdateETLBatch")]
         public async Task<IActionResult> UpdateETLBatch(ETLBatchDTO eTLBatchDTO)
         {
+            _logger.LogInformation("Executing {Action} with parameters: {Parameters}", nameof(UpdateETLBatch), JsonSerializer.Serialize(eTLBatchDTO));
+
             APIResponce obj = new APIResponce();
             if (eTLBatchDTO != null)
             {
@@ -114,7 +124,9 @@ namespace PEI_ETL_MetaDataProcess_APIs.Controllers
 
                     return Ok(obj);
                 }
-                //  return StatusCode(StatusCodes.Status400BadRequest, "Issue while updating the record in the database table!");
+
+                _logger.LogError("Issue while updating the record in the database table!");
+
                 obj.StatusCode = StatusCodes.Status400BadRequest;
                 obj.Message = "Issue while updating the record in the database table!";
                 obj.Result = "";
@@ -124,6 +136,8 @@ namespace PEI_ETL_MetaDataProcess_APIs.Controllers
             else
             {
                 // return StatusCode(StatusCodes.Status400BadRequest, "Invalid data!");
+
+                _logger.LogWarning("Invalid data!");
 
                 obj.StatusCode = StatusCodes.Status400BadRequest;
                 obj.Message = "Invalid data!";
@@ -138,6 +152,9 @@ namespace PEI_ETL_MetaDataProcess_APIs.Controllers
         [Route("api/ETLBatch/DeleteETLBatch")]
         public async Task<IActionResult> DeleteETLBatch(int Id)
         {
+            _logger.LogInformation("Executing {Action} with parameters: {Parameters}", nameof(DeleteETLBatch), JsonSerializer.Serialize(Id));
+
+
             APIResponce obj = new APIResponce();
             if (Id != 0)
             {
@@ -156,6 +173,8 @@ namespace PEI_ETL_MetaDataProcess_APIs.Controllers
                     return Ok(obj);
                 }
                 //  return StatusCode(StatusCodes.Status400BadRequest, "Issue while deleting the record in the database table!");
+                _logger.LogError("Issue while deleting the record in the database table!");
+
                 obj.StatusCode = StatusCodes.Status400BadRequest;
                 obj.Message = "Issue while deleting the record in the database table!";
                 obj.Result = "";
@@ -165,6 +184,7 @@ namespace PEI_ETL_MetaDataProcess_APIs.Controllers
             else
             {
                 //    return StatusCode(StatusCodes.Status400BadRequest, "Invalid data!");
+                _logger.LogWarning("Invalid data!");
 
                 obj.StatusCode = StatusCodes.Status400BadRequest;
                 obj.Message = "Invalid data!";

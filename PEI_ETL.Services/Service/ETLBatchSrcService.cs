@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.Extensions.Logging;
 using PEI_ETL.Core.Entities;
 using PEI_ETL.Core.Interfaces;
 using PEI_ETL.Services.DTO;
@@ -11,13 +12,17 @@ namespace PEI_ETL.Services.Service
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
+        
+        private readonly ILogger<ETLBatchSrcService> _logger;
+
         public ETLBatchSrcService(
             IUnitOfWork unitOfWork,
-            IMapper mapper
+            IMapper mapper, ILogger<ETLBatchSrcService> logger
             )
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
+            _logger = logger;
         }
 
         public async Task<IEnumerable<ETLBatchSrcDTO>> GetETLBatchSrcAsync()
@@ -32,13 +37,22 @@ namespace PEI_ETL.Services.Service
 
         public async Task<bool> InsertAsync(ETLBatchSrcDTO eTLBatchSrcDTO)
         {
+            _logger.LogDebug("Executing {Action} {Parameters}", nameof(InsertAsync),
+          eTLBatchSrcDTO);
+
             eTLBatchSrcDTO.CreatedDate = DateTime.UtcNow;
             var eTLBatchSrc = _mapper.Map<ETLBatchSrc>(eTLBatchSrcDTO);
+
+            _logger.LogInformation($"Datetime for creating the object! is {eTLBatchSrcDTO.CreatedDate}");
+
             return await _unitOfWork.ETLBatchSrc.Add(eTLBatchSrc);
         }
 
         public async Task<bool> UpdateETLBatchSrc(ETLBatchSrcDTO eTLBatchSrcDTO)
         {
+            _logger.LogDebug("Executing {Action} {Parameters}", nameof(UpdateETLBatchSrc),
+         eTLBatchSrcDTO);
+
             if (eTLBatchSrcDTO != null)
             {
                 var eTLBatchSrcDetails = await _unitOfWork.ETLBatchSrc.GetById(eTLBatchSrcDTO.Id);
@@ -56,6 +70,9 @@ namespace PEI_ETL.Services.Service
                     eTLBatchSrcDetails.UpdatedBy = eTLBatchSrcDTO.UpdatedBy;
                     //eTLBatchSrcDetails.IsActive = eTLBatchSrc.IsActive;
 
+                    _logger.LogInformation($"Datetime for updating the object! is {eTLBatchSrcDTO.UpdatedDate}");
+
+
                     _unitOfWork.ETLBatchSrc.Upsert(eTLBatchSrcDetails);
                     return true;
 
@@ -72,6 +89,8 @@ namespace PEI_ETL.Services.Service
             
         public async Task<bool> DeleteETLBatchSrc(int Id)
         {
+            _logger.LogDebug("Executing {Action} {Parameters}", nameof(DeleteETLBatchSrc),
+      Id);
             if (Id != 0)
             {
                 var eTLBatchSrcDetails = await _unitOfWork.ETLBatchSrc.GetById(Id);
@@ -80,6 +99,9 @@ namespace PEI_ETL.Services.Service
                     eTLBatchSrcDetails.IsActive = false;
 
                     _unitOfWork.ETLBatchSrc.Upsert(eTLBatchSrcDetails);
+                    _logger.LogInformation($"Deleted the record!");
+
+
                     return true;
 
                     //var result = _unitOfWork.Save();
@@ -90,6 +112,7 @@ namespace PEI_ETL.Services.Service
                     //    return false;
                 }
             }
+            _logger.LogInformation($"Failed while deleting the record!");
             return false;
         }
 

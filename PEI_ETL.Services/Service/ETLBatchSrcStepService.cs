@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.Extensions.Logging;
 using PEI_ETL.Core.Entities;
 using PEI_ETL.Core.Interfaces;
 using PEI_ETL.Services.DTO;
@@ -11,13 +12,15 @@ namespace PEI_ETL.Services.Service
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
+        private readonly ILogger<ETLBatchSrcStepService> _logger;
         public ETLBatchSrcStepService(
             IUnitOfWork unitOfWork,
-            IMapper mapper
+            IMapper mapper, ILogger<ETLBatchSrcStepService> logger
             )
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
+            _logger = logger;
         }
 
         public async Task<IEnumerable<ETLBatchSrcStepDTO>> GetETLBatchSrcStepAsync()
@@ -32,13 +35,23 @@ namespace PEI_ETL.Services.Service
 
         public async Task<bool> InsertAsync(ETLBatchSrcStepDTO ETLBatchStepDTO)
         {
+            _logger.LogDebug("Executing {Action} {Parameters}", nameof(InsertAsync),
+         ETLBatchStepDTO);
+
             ETLBatchStepDTO.CreatedDate = DateTime.UtcNow;
             var ETLBatchStep = _mapper.Map<ETLBatchSrcStep>(ETLBatchStepDTO);
+
+            _logger.LogInformation($"Datetime for creating the object! is {ETLBatchStepDTO.CreatedDate}");
+
+
             return await _unitOfWork.ETLBatchSrcStep.Add(ETLBatchStep);
         }
 
         public async Task<bool> UpdateETLBatchSrcStep(ETLBatchSrcStepDTO ETLBatchStepDTO)
         {
+            _logger.LogDebug("Executing {Action} {Parameters}", nameof(UpdateETLBatchSrcStep),
+         ETLBatchStepDTO);
+
             if (ETLBatchStepDTO != null)
             {
                 var ETLBatchStepDetails = await _unitOfWork.ETLBatchSrcStep.GetById(ETLBatchStepDTO.Id);
@@ -55,15 +68,12 @@ namespace PEI_ETL.Services.Service
                     ETLBatchStepDetails.UpdatedBy = ETLBatchStepDTO.UpdatedBy;
                     //ETLBatchStepSrcDetails.IsActive = ETLBatchStepSrc.IsActive;
 
+                    _logger.LogInformation($"Datetime for updating the object! is {ETLBatchStepDetails.UpdatedDate}");
+
+
                     _unitOfWork.ETLBatchSrcStep.Upsert(ETLBatchStepDetails);
                     return true;
-
-                    //var result = _unitOfWork.Save();
-
-                    //if (result > 0)
-                    //    return true;
-                    //else
-                    //    return false;
+                                        
                 }
             }
             return false;
@@ -71,6 +81,8 @@ namespace PEI_ETL.Services.Service
             
         public async Task<bool> DeleteETLBatchSrcStep(int Id)
         {
+            _logger.LogDebug("Executing {Action} {Parameters}", nameof(DeleteETLBatchSrcStep),
+      Id);
             if (Id != 0)
             {
                 var ETLBatchStepDetails = await _unitOfWork.ETLBatchSrcStep.GetById(Id);
@@ -79,16 +91,14 @@ namespace PEI_ETL.Services.Service
                     ETLBatchStepDetails.IsActive = false;
 
                     _unitOfWork.ETLBatchSrcStep.Upsert(ETLBatchStepDetails);
+                    _logger.LogInformation($"Deleted the record!");
+
+
                     return true;
-
-                    //var result = _unitOfWork.Save();
-
-                    //if (result > 0)
-                    //    return true;
-                    //else
-                    //    return false;
+                                        
                 }
             }
+            _logger.LogInformation($"Failed while deleting the record!");
             return false;
         }
 
