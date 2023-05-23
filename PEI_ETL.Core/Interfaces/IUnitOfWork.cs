@@ -12,6 +12,8 @@
 
         IETLBatchSrcStepRepository ETLBatchSrcStep { get; }
 
+        IETLBatchStepCfgRepository ETLBatchStepCfg { get; }
+
         Task<int> CompletedAsync();
     }
 }

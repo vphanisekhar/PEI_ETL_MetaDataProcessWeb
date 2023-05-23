@@ -33,6 +33,7 @@ builder.Services.AddTransient(typeof(ProductService), typeof(ProductService));
 builder.Services.AddTransient(typeof(ETLBatchSrcService), typeof(ETLBatchSrcService));
 builder.Services.AddTransient(typeof(ETLBatchService), typeof(ETLBatchService));
 builder.Services.AddTransient(typeof(ETLBatchSrcStepService), typeof(ETLBatchSrcStepService));
+builder.Services.AddTransient(typeof(ETLBatchStepCfgService), typeof(ETLBatchStepCfgService));
 
 builder.Services.AddTransient<IClaimsTransformation, ClaimsTransformer>();
 

@@ -19,6 +19,8 @@ namespace PEI_ETL.Infrastrucure.UnitOfWork
 
         public IETLBatchSrcStepRepository ETLBatchSrcStep { get;private set; }
 
+        public IETLBatchStepCfgRepository ETLBatchStepCfg { get; private set; }
+
         public UnitOfWork(
             ETLDbContext context,
             ILoggerFactory logger
@@ -35,7 +37,9 @@ namespace PEI_ETL.Infrastrucure.UnitOfWork
 
             ETLBatch = new ETLBatchRepository(_context, _logger);
 
-            ETLBatchSrcStep=   new ETLBatchSrcStepRepository(_context, _logger);  
+            ETLBatchSrcStep=   new ETLBatchSrcStepRepository(_context, _logger);
+
+            ETLBatchStepCfg = new ETLBatchStepCfgRepository(_context,_logger);
         }
 
         public async Task<int> CompletedAsync()

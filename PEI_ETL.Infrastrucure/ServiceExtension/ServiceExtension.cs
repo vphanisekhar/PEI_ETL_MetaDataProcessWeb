@@ -22,6 +22,7 @@ namespace PEI_ETL.Infrastrucure.ServiceExtension
             services.AddScoped<IETLBatchSrcRepository, ETLBatchSRCRepository>();
             services.AddScoped<IETLBatchRepository, ETLBatchRepository>();
             services.AddScoped<IETLBatchSrcStepRepository, ETLBatchSrcStepRepository>();
+            services.AddScoped<IETLBatchStepCfgRepository, ETLBatchStepCfgRepository>();
 
             return services;
         }
