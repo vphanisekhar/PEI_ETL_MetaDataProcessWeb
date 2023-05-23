@@ -100,6 +100,10 @@ builder.Services.AddSingleton(mapper);
 
 var app = builder.Build();
 
+//Logging into a file
+var loggerFactory = app.Services.GetService<ILoggerFactory>();
+loggerFactory.AddFile(builder.Configuration["Logging:LogFilePath"].ToString());
+
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
