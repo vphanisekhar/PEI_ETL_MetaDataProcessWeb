@@ -22,10 +22,12 @@ namespace PEI_ETL.Services.DTO
         public string Batch_Step { get; set; }
 
         [Required(ErrorMessage = "Batch Step Seq no is required!")]
-        public int Job_Step_Seq_No { get; set; }
+        [Numeric("Please fill in a valid number for Job_Step_Seq_No")]
+        public decimal Job_Step_Seq_No { get; set; }
 
         [Required(ErrorMessage = "Batch stage is required!")]
-        public int Job_Stage { get; set; }
+        [Numeric("Please fill in a valid number. for Job_Stage")]
+        public decimal Job_Stage { get; set; }
 
         [Required(ErrorMessage = "Step Active is required!")]
         public char Is_Step_Active { get; set; }
