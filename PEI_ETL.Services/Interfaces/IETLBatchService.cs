@@ -11,5 +11,7 @@ namespace PEI_ETL.Services.Interfaces
         Task<bool> UpdateETLBatch(ETLBatchDTO eTLBatch);
 
         Task<bool> DeleteETLBatch(int Id);
+
+        Task<IEnumerable<ETLBatchDTO>> GetETLBatchByBatchNameAsync(string batchName);
     }
 }

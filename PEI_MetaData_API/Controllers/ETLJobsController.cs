@@ -11,15 +11,15 @@ namespace PEI_ETL_MetaDataProcess_APIs.Controllers
 {
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [ApiController]
-    public class ETLBatchController : ControllerBase
+    public class ETLJobsController : ControllerBase
     {
-        private readonly ETLBatchService _eTLBatchService;
-        private readonly ILogger<ETLBatchController> _logger;
+        private readonly ETLJobsService _eTLJobsService;
+        private readonly ILogger<ETLJobsController> _logger;
 
 
-        public ETLBatchController(ETLBatchService service, ILogger<ETLBatchController> logger)
+        public ETLJobsController(ETLJobsService service, ILogger<ETLJobsController> logger)
         {
-            _eTLBatchService = service;
+            _eTLJobsService = service;
             _logger = logger;
         }
 
@@ -28,12 +28,12 @@ namespace PEI_ETL_MetaDataProcess_APIs.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        [Route("api/ETLBatch/GetETLBatchList")]
-        public async Task<IActionResult> GetETLBatchList()
+        [Route("api/ETLJobs/GetETLJobsList")]
+        public async Task<IActionResult> GetETLJobsList()
         {
-            var eTLBatchList = await _eTLBatchService.GetETLBatchAsync();
+            var eTLJobsList = await _eTLJobsService.GetETLJobsAsync();
             APIResponce obj = new APIResponce();
-            if (eTLBatchList == null)
+            if (eTLJobsList == null)
             {
                 // return NotFound();
                 // return StatusCode(StatusCodes.Status404NotFound, "No data available!");
@@ -41,19 +41,19 @@ namespace PEI_ETL_MetaDataProcess_APIs.Controllers
                 obj.Message = "No data available!";
                 obj.Result = "";
 
-                _logger.LogWarning("Executing {Action} and returning results with count 0", nameof(GetETLBatchList));
+                _logger.LogWarning("Executing {Action} and returning results with count 0", nameof(GetETLJobsList));
 
                 return NotFound(obj);
             }
-            //return Ok(eTLBatchSrcList);
+            //return Ok(eTLJobsSrcList);
 
-            // return StatusCode(StatusCodes.Status200OK, eTLBatchList);
+            // return StatusCode(StatusCodes.Status200OK, eTLJobsList);
 
             obj.StatusCode = StatusCodes.Status200OK;
             obj.Message = "Data retrieved successfully!";
-            obj.Result = eTLBatchList;
+            obj.Result = eTLJobsList;
 
-            _logger.LogInformation("Executing {Action} and returning results with count {0}", nameof(GetETLBatchList), JsonSerializer.Serialize(eTLBatchList.Count()));
+            _logger.LogInformation("Executing {Action} and returning results with count {0}", nameof(GetETLJobsList), JsonSerializer.Serialize(eTLJobsList.Count()));
 
             return Ok(obj);
         }
@@ -65,18 +65,18 @@ namespace PEI_ETL_MetaDataProcess_APIs.Controllers
         /// <param name="productDetails"></param>
         /// <returns></returns>
         [HttpPost]
-        [Route("api/ETLBatch/CreateETLBatch")]
-        public async Task<IActionResult> CreateETLBatch(ETLBatchDTO eTLBatch)
+        [Route("api/ETLJobs/CreateETLJobs")]
+        public async Task<IActionResult> CreateETLJobs(ETLJobsDTO eTLJobs)
         {
-            _logger.LogInformation("Executing {Action} with parameters: {Parameters}", nameof(CreateETLBatch), JsonSerializer.Serialize(eTLBatch));
+            _logger.LogInformation("Executing {Action} with parameters: {Parameters}", nameof(CreateETLJobs), JsonSerializer.Serialize(eTLJobs));
 
-            var isETLBatchCreated = await _eTLBatchService.InsertAsync(eTLBatch);
-            await _eTLBatchService.CompletedAsync();
+            var isETLJobsCreated = await _eTLJobsService.InsertAsync(eTLJobs);
+            await _eTLJobsService.CompletedAsync();
             APIResponce obj = new APIResponce();
 
-            if (isETLBatchCreated)
+            if (isETLJobsCreated)
             {
-                //return Ok(isETLBatchSrcCreated);
+                //return Ok(isETLJobsSrcCreated);
 
                // return StatusCode(StatusCodes.Status200OK, "Data created successfully!");
 
@@ -101,25 +101,25 @@ namespace PEI_ETL_MetaDataProcess_APIs.Controllers
         }
 
         /// <summary>
-        /// Update ETL batch 
+        /// Update ETL Jobs 
         /// </summary>
-        /// <param name="eTLBatchDTO"></param>
+        /// <param name="eTLJobsDTO"></param>
         /// <returns></returns>
         [HttpPut]
-        [Route("api/ETLBatch/UpdateETLBatch")]
-        public async Task<IActionResult> UpdateETLBatch(ETLBatchDTO eTLBatchDTO)
+        [Route("api/ETLJobs/UpdateETLJobs")]
+        public async Task<IActionResult> UpdateETLJobs(ETLJobsDTO eTLJobsDTO)
         {
-            _logger.LogInformation("Executing {Action} with parameters: {Parameters}", nameof(UpdateETLBatch), JsonSerializer.Serialize(eTLBatchDTO));
+            _logger.LogInformation("Executing {Action} with parameters: {Parameters}", nameof(UpdateETLJobs), JsonSerializer.Serialize(eTLJobsDTO));
 
             APIResponce obj = new APIResponce();
-            if (eTLBatchDTO != null)
+            if (eTLJobsDTO != null)
             {
-                var iseTLBatchUpdated = await _eTLBatchService.UpdateETLBatch(eTLBatchDTO);
-                await _eTLBatchService.CompletedAsync();
+                var iseTLJobsUpdated = await _eTLJobsService.UpdateETLJobs(eTLJobsDTO);
+                await _eTLJobsService.CompletedAsync();
 
-                if (iseTLBatchUpdated)
+                if (iseTLJobsUpdated)
                 {
-                    //return Ok(iseTLBatchSrcUpdated);
+                    //return Ok(iseTLJobsSrcUpdated);
                     // return StatusCode(StatusCodes.Status200OK, "Data updated successfully!");
 
                     obj.StatusCode = StatusCodes.Status200OK;
@@ -153,19 +153,19 @@ namespace PEI_ETL_MetaDataProcess_APIs.Controllers
 
 
         [HttpPut]
-        [Route("api/ETLBatch/DeleteETLBatch")]
-        public async Task<IActionResult> DeleteETLBatch(int Id)
+        [Route("api/ETLJobs/DeleteETLJobs")]
+        public async Task<IActionResult> DeleteETLJobs(int Id)
         {
-            _logger.LogInformation("Executing {Action} with parameters: {Parameters}", nameof(DeleteETLBatch), JsonSerializer.Serialize(Id));
+            _logger.LogInformation("Executing {Action} with parameters: {Parameters}", nameof(DeleteETLJobs), JsonSerializer.Serialize(Id));
 
 
             APIResponce obj = new APIResponce();
             if (Id != 0)
             {
-                var iseTLBatchUpdated = await _eTLBatchService.DeleteETLBatch(Id);
-                await _eTLBatchService.CompletedAsync();
+                var iseTLJobsUpdated = await _eTLJobsService.DeleteETLJobs(Id);
+                await _eTLJobsService.CompletedAsync();
 
-                if (iseTLBatchUpdated)
+                if (iseTLJobsUpdated)
                 {
 
                     //return StatusCode(StatusCodes.Status200OK, "Data deleted successfully!");
@@ -196,33 +196,6 @@ namespace PEI_ETL_MetaDataProcess_APIs.Controllers
 
                 return BadRequest(obj);
             }
-        }
-
-        [HttpGet]
-        [Route("api/ETLBatch/GetETLBatchByBatchName")]
-        public async Task<IActionResult> GetETLBatchByBatchName(string batchName)
-        {
-            var eTLBatchSrcList = await _eTLBatchService.GetETLBatchByBatchNameAsync(batchName);
-            APIResponce obj = new APIResponce();
-            if (eTLBatchSrcList == null)
-            {
-                obj.StatusCode = StatusCodes.Status404NotFound;
-                obj.Message = "No data available!";
-                obj.Result = "";
-
-                _logger.LogWarning("Executing {Action} and returning results with count 0", nameof(GetETLBatchByBatchName));
-
-                return NotFound(obj);
-            }
-
-            obj.StatusCode = StatusCodes.Status200OK;
-            obj.Message = "Data retrieved successfully!";
-            obj.Result = eTLBatchSrcList;
-
-            _logger.LogInformation("Executing {Action} and returning results with count {0}", nameof(GetETLBatchByBatchName), JsonSerializer.Serialize(eTLBatchSrcList.Count()));
-
-            return Ok(obj);
-
-        }
+        }       
     }
 }

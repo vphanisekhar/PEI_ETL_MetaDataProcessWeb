@@ -28,5 +28,7 @@ namespace PEI_ETL.Infrastrucure
         public virtual DbSet<ETLBatchSrcStep> ETL_BATCH_SRC_STEP { get; set; }
 
         public virtual DbSet<ETLBatchStepCfg> ETL_BATCH_STEP_CFG { get; set; }
+
+        public virtual DbSet<ETLJobs> ETL_JOBS { get; set; }
     }
 }
