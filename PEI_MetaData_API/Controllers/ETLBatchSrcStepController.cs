@@ -44,7 +44,7 @@ namespace PEI_ETL_MetaDataProcess_APIs.Controllers
             }
 
             obj.StatusCode = StatusCodes.Status200OK;
-            obj.Message = "Data retrieved successfully!";
+            obj.Message = PEIConstants.DATA_AVAIL;
             obj.Result = ETLBatchSrcStepList;
 
             _logger.LogInformation(PEIConstants.DATA_AVAIL_TWO_PRMTR_LOG, nameof(GetETLBatchSrcStepList), JsonSerializer.Serialize(ETLBatchSrcStepList.Count()));

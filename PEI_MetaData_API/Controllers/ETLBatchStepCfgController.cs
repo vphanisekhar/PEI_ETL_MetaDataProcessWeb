@@ -45,7 +45,7 @@ namespace PEI_ETL_MetaDataProcess_APIs.Controllers
             }
 
             obj.StatusCode = StatusCodes.Status200OK;
-            obj.Message = "Data retrieved successfully!";
+            obj.Message = PEIConstants.DATA_AVAIL;
             obj.Result = eTLBatchStepCfgList;
 
             _logger.LogInformation(PEIConstants.DATA_AVAIL_TWO_PRMTR_LOG, nameof(GetETLBatchStepCfgList), JsonSerializer.Serialize(eTLBatchStepCfgList.Count()));
@@ -204,7 +204,7 @@ namespace PEI_ETL_MetaDataProcess_APIs.Controllers
             if (eTLBatchStepCfgList == null)
             {
                 obj.StatusCode = StatusCodes.Status404NotFound;
-                obj.Message = "No data available!";
+                obj.Message = PEIConstants.NO_DATA_AVAIL;
                 obj.Result = "";
 
                 _logger.LogWarning(PEIConstants.NO_DATA_WITH_ONE_PRMTR_LOG, nameof(GetETLBatchStepCfgListFilter));
@@ -213,7 +213,7 @@ namespace PEI_ETL_MetaDataProcess_APIs.Controllers
             }
 
             obj.StatusCode = StatusCodes.Status200OK;
-            obj.Message = "Data retrieved successfully!";
+            obj.Message = PEIConstants.DATA_AVAIL;
             obj.Result = eTLBatchStepCfgList;
 
             _logger.LogInformation(PEIConstants.DATA_AVAIL_TWO_PRMTR_LOG, nameof(GetETLBatchStepCfgListFilter), JsonSerializer.Serialize(eTLBatchStepCfgList.Count()));
