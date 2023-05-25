@@ -1,15 +1,15 @@
+using AutoMapper;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using PEI_ETL.Core.Interfaces;
-using PEI_ETL.Infrastrucure.UnitOfWork;
 using PEI_ETL.Infrastrucure;
+using PEI_ETL.Infrastrucure.UnitOfWork;
+using PEI_ETL.Services.AutoMapperProfile;
 using PEI_ETL.Services.Service;
 using PEI_MetaData_API.Authentication;
-using AutoMapper;
-using PEI_ETL.Services.AutoMapperProfile;
-using Microsoft.AspNetCore.Authentication;
 
 var builder = WebApplication.CreateBuilder(args);
 

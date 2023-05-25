@@ -1,5 +1,4 @@
-﻿using PEI_ETL.Core.Entities;
-using PEI_ETL.Services.DTO;
+﻿using PEI_ETL.Services.DTO;
 
 namespace PEI_ETL.Services.Interfaces
 {

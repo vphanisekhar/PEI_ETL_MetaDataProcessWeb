@@ -3,9 +3,9 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PEI_ETL.Core.Entities;
 using PEI_ETL.Services.DTO;
-using PEI_ETL.Services.Interfaces;
 using PEI_ETL.Services.Service;
 using System.Text.Json;
+using PEI_MetaData_API.Common;
 
 namespace PEI_ETL_MetaDataProcess_APIs.Controllers
 {
@@ -38,10 +38,10 @@ namespace PEI_ETL_MetaDataProcess_APIs.Controllers
                 // return NotFound();
                 // return StatusCode(StatusCodes.Status404NotFound, "No data available!");
                 obj.StatusCode = StatusCodes.Status404NotFound;
-                obj.Message = "No data available!";
+                obj.Message = PEIConstants.NO_DATA_AVAIL;
                 obj.Result = "";
 
-                _logger.LogWarning("Executing {Action} and returning results with count 0", nameof(GetETLBatchList));
+                _logger.LogWarning(PEIConstants.NO_DATA_WITH_ONE_PRMTR_LOG, nameof(GetETLBatchList));
 
                 return NotFound(obj);
             }
@@ -50,10 +50,10 @@ namespace PEI_ETL_MetaDataProcess_APIs.Controllers
             // return StatusCode(StatusCodes.Status200OK, eTLBatchList);
 
             obj.StatusCode = StatusCodes.Status200OK;
-            obj.Message = "Data retrieved successfully!";
+            obj.Message = PEIConstants.DATA_AVAIL;
             obj.Result = eTLBatchList;
 
-            _logger.LogInformation("Executing {Action} and returning results with count {0}", nameof(GetETLBatchList), JsonSerializer.Serialize(eTLBatchList.Count()));
+            _logger.LogInformation(PEIConstants.DATA_AVAIL_TWO_PRMTR_LOG, nameof(GetETLBatchList), JsonSerializer.Serialize(eTLBatchList.Count()));
 
             return Ok(obj);
         }
@@ -68,7 +68,7 @@ namespace PEI_ETL_MetaDataProcess_APIs.Controllers
         [Route("api/ETLBatch/CreateETLBatch")]
         public async Task<IActionResult> CreateETLBatch(ETLBatchDTO eTLBatch)
         {
-            _logger.LogInformation("Executing {Action} with parameters: {Parameters}", nameof(CreateETLBatch), JsonSerializer.Serialize(eTLBatch));
+            _logger.LogInformation(PEIConstants.INPUT_MUTLI_PRMTR_LOG, nameof(CreateETLBatch), JsonSerializer.Serialize(eTLBatch));
 
             var isETLBatchCreated = await _eTLBatchService.InsertAsync(eTLBatch);
             await _eTLBatchService.CompletedAsync();
@@ -78,21 +78,21 @@ namespace PEI_ETL_MetaDataProcess_APIs.Controllers
             {
                 //return Ok(isETLBatchSrcCreated);
 
-               // return StatusCode(StatusCodes.Status200OK, "Data created successfully!");
+                // return StatusCode(StatusCodes.Status200OK, "Data created successfully!");
 
                 obj.StatusCode = StatusCodes.Status200OK;
-                obj.Message = "Data created successfully!";
+                obj.Message = PEIConstants.DATA_CREATE_MSG;
                 obj.Result = "";
 
                 return Ok(obj);
             }
             else
             {
-                _logger.LogError("Issue while creating the record in the database table!");
+                _logger.LogError(PEIConstants.ISSUE_CREATE_MSG);
 
                 // return StatusCode(StatusCodes.Status400BadRequest, "Issue while creating the record in the database table!");
                 obj.StatusCode = StatusCodes.Status400BadRequest;
-                obj.Message = "Issue while creating the record in the database table!";
+                obj.Message = PEIConstants.ISSUE_CREATE_MSG;
                 obj.Result = "";
 
                 return BadRequest(obj);
@@ -109,7 +109,7 @@ namespace PEI_ETL_MetaDataProcess_APIs.Controllers
         [Route("api/ETLBatch/UpdateETLBatch")]
         public async Task<IActionResult> UpdateETLBatch(ETLBatchDTO eTLBatchDTO)
         {
-            _logger.LogInformation("Executing {Action} with parameters: {Parameters}", nameof(UpdateETLBatch), JsonSerializer.Serialize(eTLBatchDTO));
+            _logger.LogInformation(PEIConstants.INPUT_MUTLI_PRMTR_LOG, nameof(UpdateETLBatch), JsonSerializer.Serialize(eTLBatchDTO));
 
             APIResponce obj = new APIResponce();
             if (eTLBatchDTO != null)
@@ -123,16 +123,16 @@ namespace PEI_ETL_MetaDataProcess_APIs.Controllers
                     // return StatusCode(StatusCodes.Status200OK, "Data updated successfully!");
 
                     obj.StatusCode = StatusCodes.Status200OK;
-                    obj.Message = "Data updated successfully!";
+                    obj.Message = PEIConstants.DATA_UPDATE_MSG;
                     obj.Result = "";
 
                     return Ok(obj);
                 }
 
-                _logger.LogError("Issue while updating the record in the database table!");
+                _logger.LogError(PEIConstants.ISSUE_UPDATE_MSG);
 
                 obj.StatusCode = StatusCodes.Status400BadRequest;
-                obj.Message = "Issue while updating the record in the database table!";
+                obj.Message = PEIConstants.ISSUE_UPDATE_MSG;
                 obj.Result = "";
 
                 return BadRequest(obj);
@@ -141,10 +141,10 @@ namespace PEI_ETL_MetaDataProcess_APIs.Controllers
             {
                 // return StatusCode(StatusCodes.Status400BadRequest, "Invalid data!");
 
-                _logger.LogWarning("Invalid data!");
+                _logger.LogWarning(PEIConstants.INVALID_DATA_MSG);
 
                 obj.StatusCode = StatusCodes.Status400BadRequest;
-                obj.Message = "Invalid data!";
+                obj.Message = PEIConstants.INVALID_DATA_MSG;
                 obj.Result = "";
 
                 return BadRequest(obj);
@@ -156,7 +156,7 @@ namespace PEI_ETL_MetaDataProcess_APIs.Controllers
         [Route("api/ETLBatch/DeleteETLBatch")]
         public async Task<IActionResult> DeleteETLBatch(int Id)
         {
-            _logger.LogInformation("Executing {Action} with parameters: {Parameters}", nameof(DeleteETLBatch), JsonSerializer.Serialize(Id));
+            _logger.LogInformation(PEIConstants.INPUT_MUTLI_PRMTR_LOG, nameof(DeleteETLBatch), JsonSerializer.Serialize(Id));
 
 
             APIResponce obj = new APIResponce();
@@ -171,16 +171,16 @@ namespace PEI_ETL_MetaDataProcess_APIs.Controllers
                     //return StatusCode(StatusCodes.Status200OK, "Data deleted successfully!");
 
                     obj.StatusCode = StatusCodes.Status200OK;
-                    obj.Message = "Data deleted successfully!";
+                    obj.Message = PEIConstants.DATA_DELETE_MSG;
                     obj.Result = "";
 
                     return Ok(obj);
                 }
                 //  return StatusCode(StatusCodes.Status400BadRequest, "Issue while deleting the record in the database table!");
-                _logger.LogError("Issue while deleting the record in the database table!");
+                _logger.LogError(PEIConstants.ISSUE_DELETE_MSG);
 
                 obj.StatusCode = StatusCodes.Status400BadRequest;
-                obj.Message = "Issue while deleting the record in the database table!";
+                obj.Message = PEIConstants.ISSUE_DELETE_MSG;
                 obj.Result = "";
 
                 return BadRequest(obj);
@@ -188,10 +188,10 @@ namespace PEI_ETL_MetaDataProcess_APIs.Controllers
             else
             {
                 //    return StatusCode(StatusCodes.Status400BadRequest, "Invalid data!");
-                _logger.LogWarning("Invalid data!");
+                _logger.LogWarning(PEIConstants.INVALID_DATA_MSG);
 
                 obj.StatusCode = StatusCodes.Status400BadRequest;
-                obj.Message = "Invalid data!";
+                obj.Message = PEIConstants.INVALID_DATA_MSG;
                 obj.Result = "";
 
                 return BadRequest(obj);
@@ -207,19 +207,19 @@ namespace PEI_ETL_MetaDataProcess_APIs.Controllers
             if (eTLBatchSrcList == null)
             {
                 obj.StatusCode = StatusCodes.Status404NotFound;
-                obj.Message = "No data available!";
+                obj.Message = PEIConstants.NO_DATA_AVAIL;
                 obj.Result = "";
 
-                _logger.LogWarning("Executing {Action} and returning results with count 0", nameof(GetETLBatchByBatchName));
+                _logger.LogWarning(PEIConstants.NO_DATA_WITH_ONE_PRMTR_LOG, nameof(GetETLBatchByBatchName));
 
                 return NotFound(obj);
             }
 
             obj.StatusCode = StatusCodes.Status200OK;
-            obj.Message = "Data retrieved successfully!";
+            obj.Message = PEIConstants.DATA_AVAIL;
             obj.Result = eTLBatchSrcList;
 
-            _logger.LogInformation("Executing {Action} and returning results with count {0}", nameof(GetETLBatchByBatchName), JsonSerializer.Serialize(eTLBatchSrcList.Count()));
+            _logger.LogInformation(PEIConstants.DATA_AVAIL_TWO_PRMTR_LOG, nameof(GetETLBatchByBatchName), JsonSerializer.Serialize(eTLBatchSrcList.Count()));
 
             return Ok(obj);
 

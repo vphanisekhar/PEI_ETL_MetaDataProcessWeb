@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace PEI_ETL.Core.Entities
+﻿namespace PEI_ETL.Core.Entities
 {
     public class ETLBatchSrc : AuditColumns
     {
