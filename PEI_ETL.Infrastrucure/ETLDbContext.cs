@@ -5,7 +5,7 @@ using PEI_ETL.Core.Entities;
 namespace PEI_ETL.Infrastrucure
 {
 
-    public class ETLDbContext : DbContext //IdentityDbContext<IdentityUser>
+    public class ETLDbContext : DbContext 
     {
         public ETLDbContext(DbContextOptions<ETLDbContext> options)
             : base(options)
@@ -30,5 +30,7 @@ namespace PEI_ETL.Infrastrucure
         public virtual DbSet<ETLBatchStepCfg> ETL_BATCH_STEP_CFG { get; set; }
 
         public virtual DbSet<ETLJobs> ETL_JOBS { get; set; }
+
+        public virtual DbSet<ETLBatchSrcStepCfg> ETL_BATCH_SRC_STEP_CFG { get; set; }
     }
 }

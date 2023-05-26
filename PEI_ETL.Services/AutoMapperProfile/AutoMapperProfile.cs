@@ -24,6 +24,8 @@ namespace PEI_ETL.Services.AutoMapperProfile
             CreateMap<ETLBatchStepCfgDTO, ETLBatchStepCfg>().ReverseMap();
 
             CreateMap<ETLJobsDTO, ETLJobs>().ReverseMap();
+
+            CreateMap<ETLBatchSrcStepCfgDTO, ETLBatchSrcStepCfg>().ReverseMap();
         }
     }
 }

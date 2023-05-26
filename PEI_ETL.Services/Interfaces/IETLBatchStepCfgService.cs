@@ -2,13 +2,17 @@
 
 namespace PEI_ETL.Services.Interfaces
 {
-    public interface IETLBatchSrcService
+    public interface IETLBatchStepCfgService
     {
-        Task<IEnumerable<ETLBatchSrcDTO>> GetETLBatchSrcAsync();
-        Task<bool> InsertAsync(ETLBatchSrcDTO eTLBatchSrcDTO);
+        Task<IEnumerable<ETLBatchStepCfgDTO>> GetETLBatchStepCfgAsync();
+        Task<bool> InsertAsync(ETLBatchStepCfgDTO eTLBatchStepCfgDTO);
 
-        Task<bool> UpdateETLBatchSrc(ETLBatchSrcDTO eTLBatchSrcDTO);
+        Task<bool> UpdateETLBatchStepCfg(ETLBatchStepCfgDTO eTLBatchStepCfgDTO);
 
-        Task<bool> DeleteETLBatchSrc(int Id);
+        Task<bool> DeleteETLBatchStepCfg(int Id);
+
+        Task<IEnumerable<ETLBatchStepCfgDTO>> GetETLBatchStepCfgFilterAsync(string batchName, string batchStep);
+
+
     }
 }

@@ -16,6 +16,8 @@
 
         IETLJobsRepository ETLJobs { get; }
 
+        IETLBatchSrcStepCfgRepository ETLBatchSrcStepCfg { get; }
+
         Task<int> CompletedAsync();
     }
 }
